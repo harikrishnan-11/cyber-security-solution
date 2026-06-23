@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up — Stackly Cyber Defense</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="signup.css">
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+<div class="scanlines"></div>
+
+<!-- Mobile Header -->
+<div class="mobile-header">
+ <a href="./index.html" class="logo">
+         <img src="./src/Untitled design-compressed.webp" alt="">
+        </a>
+  <a href="./index.html" style="color:var(--muted);font-size:13px;text-decoration:none;display:flex;align-items:center;gap:6px;">
+    <i class="fa-solid fa-arrow-left" style="font-size:11px;"></i> Back
+  </a>
+</div>
+
+<div class="auth-layout">
+
+  <!-- ═══ LEFT PANEL ═══ -->
+  <div class="left-panel">
+    <div class="left-panel-img">
+      <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80&auto=format&fit=crop" alt="">
+    </div>
+    <div class="left-content">
+      <a href="./index.html" class="logo">
+         <img src="./src/Untitled design-compressed.webp" alt="">
+        </a>
+    </div>
+    <div class="left-main">
+      <div class="lp-tag"><i class="fa-solid fa-rocket"></i> Free Assessment Included</div>
+      <h2 class="lp-heading">Start Your<br><span>Cyber Defense</span><br>Journey</h2>
+      <p class="lp-sub">Join 500+ enterprises protecting their infrastructure with Stackly's AI-powered SOC platform.</p>
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feat-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+          <div class="feat-text">
+            <strong>Free 48-hour attack surface audit</strong>
+            <span>// No credit card required</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feat-icon"><i class="fa-solid fa-bolt"></i></div>
+          <div class="feat-text">
+            <strong>Deployed and monitoring in 24 hours</strong>
+            <span>// No rip-and-replace</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feat-icon"><i class="fa-solid fa-headset"></i></div>
+          <div class="feat-text">
+            <strong>Dedicated security engineer assigned</strong>
+            <span>// Not a rotating help desk</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feat-icon"><i class="fa-solid fa-handshake"></i></div>
+          <div class="feat-text">
+            <strong>Month-to-month, no lock-in</strong>
+            <span>// Cancel any time</span>
+          </div>
+        </div>
+      </div>
+      <div class="plan-badge">
+        <i class="fa-solid fa-shield-halved"></i>
+        <div>
+          <div class="plan-name">Free Starter Plan</div>
+          <div class="plan-sub">// Upgrade anytime to Enterprise</div>
+        </div>
+      </div>
+    </div>
+    <div class="left-footer">
+      <div class="status-dot"></div>
+      <span>All systems secure &nbsp;·&nbsp; GDPR compliant &nbsp;·&nbsp; SOC 2 Type II</span>
+    </div>
+  </div>
+
+  <!-- ═══ RIGHT PANEL ═══ -->
+  <div class="right-panel">
+    <div class="form-wrap">
+
+      <!-- Progress steps -->
+      <div class="progress-bar-wrap" style="position:relative;margin-bottom:52px;">
+        <div class="prog-step">
+          <div class="prog-circle active" id="step1Circle">
+            1
+            <span class="prog-label">Account</span>
+          </div>
+          <div class="prog-line" id="line1"></div>
+        </div>
+        <div class="prog-step">
+          <div class="prog-circle" id="step2Circle">
+            2
+            <span class="prog-label">Organization</span>
+          </div>
+          <div class="prog-line" id="line2"></div>
+        </div>
+        <div class="prog-step">
+          <div class="prog-circle" id="step3Circle">
+            3
+            <span class="prog-label">Security</span>
+          </div>
+          <div class="prog-line" style="background:transparent;"></div>
+        </div>
+      </div>
+
+      <!-- ═ STEP 1: Account Details ═ -->
+      <div class="step-pane active slide-in" id="stepPane1">
+        <div class="form-header">
+          <div class="form-eyebrow"><i class="fa-solid fa-user-shield"></i> Step 1 of 3</div>
+          <h1 class="form-title">Create Your <span>Account</span></h1>
+          <p class="form-sub">Already have an account? <a href="./login.html">Login here</a></p>
+        </div>
+
+        <!-- Social signup -->
+        <div class="or-divider"><span>quick signup</span></div>
+        <div class="social-btns">
+          <a href="./404.html" class="btn-social"><i class="fa-brands fa-google"></i> Google SSO</a>
+          <a href="./404.html" class="btn-social"><i class="fa-brands fa-microsoft"></i> Microsoft</a>
+        </div>
+        <div class="or-divider"><span>or fill the form</span></div>
+
+        <div class="form-row-2">
+          <!-- First Name -->
+          <div class="form-group">
+            <label class="form-label" for="firstName">
+              <i class="fa-solid fa-user"></i> First Name <span class="required-dot"></span>
+            </label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-user input-icon"></i>
+              <input type="text" id="firstName" class="form-input" placeholder="Alex" autocomplete="given-name">
+            </div>
+            <div class="field-error" id="firstNameError">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <span>First name is required.</span>
+            </div>
+          </div>
+          <!-- Last Name -->
+          <div class="form-group">
+            <label class="form-label" for="lastName">
+              <i class="fa-solid fa-user"></i> Last Name <span class="required-dot"></span>
+            </label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-user input-icon"></i>
+              <input type="text" id="lastName" class="form-input" placeholder="Carter" autocomplete="family-name">
+            </div>
+            <div class="field-error" id="lastNameError">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <span>Last name is required.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label class="form-label" for="email">
+            <i class="fa-solid fa-at"></i> Work Email <span class="required-dot"></span>
+          </label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-envelope input-icon"></i>
+            <input type="email" id="email" class="form-input" placeholder="alex@yourcompany.com" autocomplete="email">
+          </div>
+          <div class="field-error" id="emailError">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span id="emailErrorMsg">Enter a valid work email address.</span>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label class="form-label" for="password">
+            <i class="fa-solid fa-key"></i> Password <span class="required-dot"></span>
+          </label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input type="password" id="password" class="form-input" placeholder="Create a strong password" autocomplete="new-password">
+            <button type="button" class="input-icon-right" id="pwToggle1" aria-label="Toggle password">
+              <i class="fa-solid fa-eye" id="pwEye1"></i>
+            </button>
+          </div>
+          <div class="pw-strength-wrap" id="pwStrengthWrap">
+            <div class="pw-strength-bars">
+              <div class="pw-bar" id="bar1"></div>
+              <div class="pw-bar" id="bar2"></div>
+              <div class="pw-bar" id="bar3"></div>
+              <div class="pw-bar" id="bar4"></div>
+            </div>
+            <div class="pw-strength-label" id="pwStrengthLabel">Too weak</div>
+          </div>
+          <div class="field-error" id="passwordError">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span id="passwordErrorMsg">Password must be at least 8 characters.</span>
+          </div>
+          <div class="pw-requirements" id="pwRequirements">
+            <div class="pw-req-title">Password requirements</div>
+            <div class="pw-req-list">
+              <div class="pw-req-item" id="req-len"><i class="fa-solid fa-circle-dot"></i> At least 8 characters</div>
+              <div class="pw-req-item" id="req-upper"><i class="fa-solid fa-circle-dot"></i> One uppercase letter</div>
+              <div class="pw-req-item" id="req-num"><i class="fa-solid fa-circle-dot"></i> One number</div>
+              <div class="pw-req-item" id="req-special"><i class="fa-solid fa-circle-dot"></i> One special character (!@#$…)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label class="form-label" for="confirmPassword">
+            <i class="fa-solid fa-key"></i> Confirm Password <span class="required-dot"></span>
+          </label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input type="password" id="confirmPassword" class="form-input" placeholder="Repeat your password" autocomplete="new-password">
+            <button type="button" class="input-icon-right" id="pwToggle2" aria-label="Toggle password">
+              <i class="fa-solid fa-eye" id="pwEye2"></i>
+            </button>
+          </div>
+          <div class="field-error" id="confirmPasswordError">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>Passwords do not match.</span>
+          </div>
+        </div>
+
+        <button type="button" class="btn-next" id="nextBtn1" style="width:100%;margin-bottom:20px;">
+          Continue <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+        <div class="security-note">
+          <i class="fa-solid fa-shield-halved"></i>
+          Your data is encrypted with AES-256 &nbsp;·&nbsp; Zero-knowledge architecture
+        </div>
+      </div>
+
+      <!-- ═ STEP 2: Organization ═ -->
+      <div class="step-pane" id="stepPane2">
+        <div class="form-header">
+          <div class="form-eyebrow"><i class="fa-solid fa-building-lock"></i> Step 2 of 3</div>
+          <h1 class="form-title">Your <span>Organization</span></h1>
+          <p class="form-sub">Helps us tailor your threat model and compliance framework.</p>
+        </div>
+
+        <!-- Company -->
+        <div class="form-group">
+          <label class="form-label" for="company">
+            <i class="fa-solid fa-building"></i> Company Name <span class="required-dot"></span>
+          </label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-building input-icon"></i>
+            <input type="text" id="company" class="form-input" placeholder="NexCorp Inc." autocomplete="organization">
+          </div>
+          <div class="field-error" id="companyError">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>Company name is required.</span>
+          </div>
+        </div>
+
+        <!-- Role + Industry -->
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label" for="role">
+              <i class="fa-solid fa-id-badge"></i> Your Role <span class="required-dot"></span>
+            </label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-user-tie input-icon"></i>
+              <select id="role" class="form-input">
+                <option value="">Select role…</option>
+                <option>CISO</option>
+                <option>CTO</option>
+                <option>Security Engineer</option>
+                <option>SOC Analyst</option>
+                <option>DevOps / SRE</option>
+                <option>IT Manager</option>
+                <option>Compliance Officer</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field-error" id="roleError">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <span>Please select your role.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="industry">
+              <i class="fa-solid fa-industry"></i> Industry <span class="required-dot"></span>
+            </label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-briefcase input-icon"></i>
+              <select id="industry" class="form-input">
+                <option value="">Select industry…</option>
+                <option>Finance / Banking</option>
+                <option>Healthcare</option>
+                <option>Technology / SaaS</option>
+                <option>Government</option>
+                <option>Energy / Utilities</option>
+                <option>Retail / E-commerce</option>
+                <option>Manufacturing</option>
+                <option>Legal / Compliance</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field-error" id="industryError">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <span>Please select your industry.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team size -->
+        <div class="form-group">
+          <label class="form-label" for="teamSize">
+            <i class="fa-solid fa-users"></i> Team Size
+          </label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-users input-icon"></i>
+            <select id="teamSize" class="form-input">
+              <option value="">Select team size…</option>
+              <option>1–10 employees</option>
+              <option>11–50 employees</option>
+              <option>51–250 employees</option>
+              <option>251–1000 employees</option>
+              <option>1000+ employees</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="form-group">
+          <label class="form-label" for="phone">
+            <i class="fa-solid fa-phone"></i> Phone Number <em style="color:var(--muted);font-style:normal;font-weight:400;">(optional)</em>
+          </label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-phone input-icon"></i>
+            <input type="tel" id="phone" class="form-input" placeholder="+1 800 000 0000" autocomplete="tel">
+          </div>
+          <div class="field-error" id="phoneError">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>Enter a valid phone number.</span>
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <button type="button" class="btn-back" id="backBtn2">
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </button>
+          <button type="button" class="btn-next" id="nextBtn2">
+            Continue <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <div class="security-note">
+          <i class="fa-solid fa-lock"></i>
+          Org data is used only to configure your threat model — never sold
+        </div>
+      </div>
+
+      <!-- ═ STEP 3: Security Preferences ═ -->
+      <div class="step-pane" id="stepPane3">
+        <div class="form-header">
+          <div class="form-eyebrow"><i class="fa-solid fa-shield-halved"></i> Step 3 of 3</div>
+          <h1 class="form-title">Security <span>Preferences</span></h1>
+          <p class="form-sub">Customize how Stackly monitors and alerts your team.</p>
+        </div>
+
+        <!-- Alert preference -->
+        <div class="form-group">
+          <label class="form-label" for="alertPref">
+            <i class="fa-solid fa-bell"></i> Alert Delivery <span class="required-dot"></span>
+          </label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-satellite-dish input-icon"></i>
+            <select id="alertPref" class="form-input">
+              <option value="">Choose alert method…</option>
+              <option>Email only</option>
+              <option>Email + SMS</option>
+              <option>Email + Slack</option>
+              <option>All channels (Email, SMS, Slack)</option>
+            </select>
+          </div>
+          <div class="field-error" id="alertPrefError">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>Please select an alert delivery method.</span>
+          </div>
+        </div>
+
+        <!-- Compliance frameworks -->
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fa-solid fa-certificate"></i> Compliance Frameworks
+          </label>
+          <div style="display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;">
+            <label class="checkbox-wrap" style="margin-bottom:0;" for="chk-soc2">
+              <input type="checkbox" id="chk-soc2">
+              <div class="custom-check"><i class="fa-solid fa-check"></i></div>
+              <span class="checkbox-label">SOC 2 Type II</span>
+            </label>
+            <label class="checkbox-wrap" style="margin-bottom:0;" for="chk-iso">
+              <input type="checkbox" id="chk-iso">
+              <div class="custom-check"><i class="fa-solid fa-check"></i></div>
+              <span class="checkbox-label">ISO 27001</span>
+            </label>
+            <label class="checkbox-wrap" style="margin-bottom:0;" for="chk-hipaa">
+              <input type="checkbox" id="chk-hipaa">
+              <div class="custom-check"><i class="fa-solid fa-check"></i></div>
+              <span class="checkbox-label">HIPAA</span>
+            </label>
+            <label class="checkbox-wrap" style="margin-bottom:0;" for="chk-gdpr">
+              <input type="checkbox" id="chk-gdpr">
+              <div class="custom-check"><i class="fa-solid fa-check"></i></div>
+              <span class="checkbox-label">GDPR</span>
+            </label>
+            <label class="checkbox-wrap" style="margin-bottom:0;" for="chk-pci">
+              <input type="checkbox" id="chk-pci">
+              <div class="custom-check"><i class="fa-solid fa-check"></i></div>
+              <span class="checkbox-label">PCI-DSS</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Terms -->
+        <label class="checkbox-wrap" for="terms">
+          <input type="checkbox" id="terms">
+          <div class="custom-check"><i class="fa-solid fa-check"></i></div>
+          <span class="checkbox-label">
+            I agree to Stackly's <a href="./404.html">Terms of Service</a> and <a href="./404.html">Privacy Policy</a>. I understand my data is processed per SOC 2 standards.
+          </span>
+        </label>
+        <div class="field-error terms-error" id="termsError">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span>You must agree to the Terms of Service to continue.</span>
+        </div>
+
+        <!-- Newsletter -->
+        <label class="checkbox-wrap" for="newsletter">
+          <input type="checkbox" id="newsletter" checked>
+          <div class="custom-check"><i class="fa-solid fa-check"></i></div>
+          <span class="checkbox-label">Send me weekly threat intelligence briefs and security advisories.</span>
+        </label>
+
+        <div class="form-nav" style="margin-top:8px;">
+          <button type="button" class="btn-back" id="backBtn3">
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </button>
+          <button type="button" class="btn-submit" id="submitBtn">
+            <span class="btn-text"><i class="fa-solid fa-rocket"></i>&nbsp; Activate Account</span>
+            <div class="btn-spinner"></div>
+          </button>
+        </div>
+
+        <div style="margin-top:16px;"></div>
+        <div class="security-note">
+          <i class="fa-solid fa-shield-halved"></i>
+          256-bit AES encryption &nbsp;·&nbsp; GDPR compliant &nbsp;·&nbsp; No credit card needed
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-check" id="toastIconI"></i></div>
+  <div>
+    <div class="toast-title" id="toastTitle">Account Created!</div>
+    <div class="toast-msg" id="toastMsg">Welcome to Stackly. Setting up your SOC dashboard…</div>
+  </div>
+</div>
+
+<script>
+/* ─── MATRIX ──────────────────────────────────────────────── */
+(function () {
+  const c = document.getElementById('matrix-canvas'), ctx = c.getContext('2d');
+  c.width = window.innerWidth; c.height = window.innerHeight;
+  const chars = '01アイウエオカキクケコサシスセソ';
+  const cols = Math.floor(c.width / 20), drops = Array(cols).fill(1);
+  function draw() {
+    ctx.fillStyle = 'rgba(7,8,15,0.05)'; ctx.fillRect(0, 0, c.width, c.height);
+    ctx.fillStyle = '#7B5CFA'; ctx.font = '13px Space Mono, monospace';
+    drops.forEach((y, i) => {
+      ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * 20, y * 20);
+      if (y * 20 > c.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    });
+  }
+  setInterval(draw, 90);
+  window.addEventListener('resize', () => { c.width = window.innerWidth; c.height = window.innerHeight; });
+})();
+
+/* ─── HELPERS ─────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+
+function showError(inputEl, errorEl, msg) {
+  inputEl.classList.add('error'); inputEl.classList.remove('success');
+  if (msg) errorEl.querySelector('span').textContent = msg;
+  errorEl.classList.add('show');
+}
+function clearError(inputEl, errorEl) {
+  inputEl.classList.remove('error');
+  errorEl.classList.remove('show');
+}
+function markSuccess(inputEl) {
+  inputEl.classList.remove('error'); inputEl.classList.add('success');
+}
+function showDivError(errorEl, msg) {
+  if (msg) errorEl.querySelector('span').textContent = msg;
+  errorEl.classList.add('show');
+}
+function hideDivError(errorEl) { errorEl.classList.remove('show'); }
+
+function validateEmail(val) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+}
+function validatePhone(val) {
+  return !val || /^[\+\d\s\-\(\)]{7,20}$/.test(val.trim());
+}
+
+/* ─── TOAST ───────────────────────────────────────────────── */
+function showToast(title, msg, isError = false) {
+  const toast = $('toast'), icon = $('toastIcon'), iconI = $('toastIconI');
+  $('toastTitle').textContent = title;
+  $('toastMsg').textContent = msg;
+  if (isError) {
+    icon.className = 'toast-icon error-icon'; iconI.className = 'fa-solid fa-triangle-exclamation';
+    toast.style.borderColor = 'rgba(255,61,107,0.3)';
+    toast.style.boxShadow = '0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(255,61,107,0.1)';
+  } else {
+    icon.className = 'toast-icon'; iconI.className = 'fa-solid fa-check';
+    toast.style.borderColor = 'rgba(0,255,136,0.3)';
+    toast.style.boxShadow = '0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(0,255,136,0.1)';
+  }
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4500);
+}
+
+/* ─── STEP MANAGEMENT ─────────────────────────────────────── */
+let currentStep = 1;
+
+function goToStep(n) {
+  document.getElementById(`stepPane${currentStep}`).classList.remove('active');
+  const next = document.getElementById(`stepPane${n}`);
+  next.classList.add('active');
+  next.classList.remove('slide-in');
+  void next.offsetWidth; // trigger reflow
+  next.classList.add('slide-in');
+  currentStep = n;
+  updateProgress(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress(step) {
+  [1, 2, 3].forEach(i => {
+    const circle = $(`step${i}Circle`);
+    circle.className = 'prog-circle';
+    if (i < step) { circle.className = 'prog-circle done'; circle.innerHTML = `<i class="fa-solid fa-check"></i><span class="prog-label">${circle.querySelector('.prog-label')?.textContent || ''}</span>`; }
+    else if (i === step) { circle.className = 'prog-circle active'; }
+    // Re-add label
+    if (!circle.querySelector('.prog-label')) {
+      const labels = ['Account','Organization','Security'];
+      const span = document.createElement('span');
+      span.className = 'prog-label'; span.textContent = labels[i-1];
+      circle.appendChild(span);
+    }
+  });
+  if ($('line1')) $('line1').className = step > 1 ? 'prog-line done' : 'prog-line';
+  if ($('line2')) $('line2').className = step > 2 ? 'prog-line done' : 'prog-line';
+}
+
+/* ─── PASSWORD STRENGTH ───────────────────────────────────── */
+function checkStrength(pw) {
+  let score = 0;
+  const checks = {
+    len:     pw.length >= 8,
+    upper:   /[A-Z]/.test(pw),
+    num:     /[0-9]/.test(pw),
+    special: /[^A-Za-z0-9]/.test(pw),
+  };
+  Object.values(checks).forEach(v => { if (v) score++; });
+
+  // Update requirements
+  const reqMap = { len: 'req-len', upper: 'req-upper', num: 'req-num', special: 'req-special' };
+  Object.entries(checks).forEach(([k, v]) => {
+    const el = $(reqMap[k]);
+    el.classList.toggle('pass', v);
+    el.querySelector('i').className = v ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-dot';
+  });
+
+  // Bars
+  const bars = ['bar1','bar2','bar3','bar4'];
+  bars.forEach((id, idx) => {
+    const bar = $(id);
+    bar.className = 'pw-bar';
+    if (idx < score) {
+      if (score <= 1) bar.classList.add('weak');
+      else if (score <= 2) bar.classList.add('medium');
+      else if (score <= 3) bar.classList.add('medium');
+      else bar.classList.add('strong');
+    }
+  });
+
+  const labels = ['', 'Too weak', 'Weak', 'Good', 'Strong'];
+  $('pwStrengthLabel').textContent = labels[score] || 'Too weak';
+  return score >= 3;
+}
+
+/* ─── STEP 1 INTERACTIONS ─────────────────────────────────── */
+const emailIn = $('email'), emailErr = $('emailError');
+const pwIn = $('password'), pwErr = $('passwordError');
+const cpwIn = $('confirmPassword'), cpwErr = $('confirmPasswordError');
+const fn = $('firstName'), fnErr = $('firstNameError');
+const ln = $('lastName'), lnErr = $('lastNameError');
+
+// Password strength
+pwIn.addEventListener('input', () => {
+  if (pwIn.value) {
+    $('pwStrengthWrap').classList.add('show');
+    $('pwRequirements').classList.add('show');
+    const ok = checkStrength(pwIn.value);
+    if (ok) { clearError(pwIn, pwErr); markSuccess(pwIn); }
+    else pwIn.classList.remove('success');
+  } else {
+    $('pwStrengthWrap').classList.remove('show');
+    $('pwRequirements').classList.remove('show');
+  }
+});
+pwIn.addEventListener('blur', () => {
+  if (!pwIn.value) showError(pwIn, pwErr, 'Password is required.');
+  else if (!checkStrength(pwIn.value)) showError(pwIn, pwErr, 'Password does not meet the requirements below.');
+  else { clearError(pwIn, pwErr); markSuccess(pwIn); }
+});
+
+// Password toggles
+$('pwToggle1').addEventListener('click', () => {
+  const isText = pwIn.type === 'text';
+  pwIn.type = isText ? 'password' : 'text';
+  $('pwEye1').className = isText ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+});
+$('pwToggle2').addEventListener('click', () => {
+  const isText = cpwIn.type === 'text';
+  cpwIn.type = isText ? 'password' : 'text';
+  $('pwEye2').className = isText ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+});
+
+// Confirm password
+cpwIn.addEventListener('blur', () => {
+  if (!cpwIn.value) showError(cpwIn, cpwErr, 'Please confirm your password.');
+  else if (cpwIn.value !== pwIn.value) showError(cpwIn, cpwErr, 'Passwords do not match.');
+  else { clearError(cpwIn, cpwErr); markSuccess(cpwIn); }
+});
+cpwIn.addEventListener('input', () => {
+  if (cpwIn.value === pwIn.value && cpwIn.value) {
+    clearError(cpwIn, cpwErr); markSuccess(cpwIn);
+  }
+});
+
+// Email blur
+emailIn.addEventListener('blur', () => {
+  if (!emailIn.value) showError(emailIn, emailErr, 'Work email is required.');
+  else if (!validateEmail(emailIn.value)) showError(emailIn, emailErr, 'Enter a valid email address (e.g. name@company.com).');
+  else { clearError(emailIn, emailErr); markSuccess(emailIn); }
+});
+emailIn.addEventListener('input', () => {
+  if (emailIn.classList.contains('error') && validateEmail(emailIn.value)) {
+    clearError(emailIn, emailErr); markSuccess(emailIn);
+  }
+});
+
+// First/last name
+fn.addEventListener('blur', () => {
+  if (!fn.value.trim()) showError(fn, fnErr, 'First name is required.');
+  else { clearError(fn, fnErr); markSuccess(fn); }
+});
+ln.addEventListener('blur', () => {
+  if (!ln.value.trim()) showError(ln, lnErr, 'Last name is required.');
+  else { clearError(ln, lnErr); markSuccess(ln); }
+});
+
+// Step 1 next
+$('nextBtn1').addEventListener('click', () => {
+  let ok = true;
+  if (!fn.value.trim()) { showError(fn, fnErr, 'First name is required.'); ok = false; }
+  else { clearError(fn, fnErr); markSuccess(fn); }
+  if (!ln.value.trim()) { showError(ln, lnErr, 'Last name is required.'); ok = false; }
+  else { clearError(ln, lnErr); markSuccess(ln); }
+  if (!emailIn.value) { showError(emailIn, emailErr, 'Work email is required.'); ok = false; }
+  else if (!validateEmail(emailIn.value)) { showError(emailIn, emailErr, 'Enter a valid email address.'); ok = false; }
+  else { clearError(emailIn, emailErr); markSuccess(emailIn); }
+  if (!pwIn.value) { showError(pwIn, pwErr, 'Password is required.'); ok = false; }
+  else if (!checkStrength(pwIn.value)) { showError(pwIn, pwErr, 'Password does not meet the requirements.'); ok = false; }
+  else { clearError(pwIn, pwErr); markSuccess(pwIn); }
+  if (!cpwIn.value) { showError(cpwIn, cpwErr, 'Please confirm your password.'); ok = false; }
+  else if (cpwIn.value !== pwIn.value) { showError(cpwIn, cpwErr, 'Passwords do not match.'); ok = false; }
+  else { clearError(cpwIn, cpwErr); markSuccess(cpwIn); }
+  if (!ok) { showToast('Incomplete Fields', 'Please fix the errors above before continuing.', true); return; }
+  goToStep(2);
+});
+
+/* ─── STEP 2 VALIDATION ───────────────────────────────────── */
+const companyIn = $('company'), companyErr = $('companyError');
+const roleIn = $('role'), roleErr = $('roleError');
+const industryIn = $('industry'), industryErr = $('industryError');
+const phoneIn = $('phone'), phoneErr = $('phoneError');
+
+companyIn.addEventListener('blur', () => {
+  if (!companyIn.value.trim()) showError(companyIn, companyErr, 'Company name is required.');
+  else { clearError(companyIn, companyErr); markSuccess(companyIn); }
+});
+roleIn.addEventListener('change', () => {
+  if (!roleIn.value) showError(roleIn, roleErr, 'Please select your role.');
+  else { clearError(roleIn, roleErr); markSuccess(roleIn); }
+});
+industryIn.addEventListener('change', () => {
+  if (!industryIn.value) showError(industryIn, industryErr, 'Please select your industry.');
+  else { clearError(industryIn, industryErr); markSuccess(industryIn); }
+});
+phoneIn.addEventListener('blur', () => {
+  if (phoneIn.value && !validatePhone(phoneIn.value)) showError(phoneIn, phoneErr, 'Enter a valid phone number.');
+  else { clearError(phoneIn, phoneErr); if (phoneIn.value) markSuccess(phoneIn); }
+});
+
+$('backBtn2').addEventListener('click', () => goToStep(1));
+$('nextBtn2').addEventListener('click', () => {
+  let ok = true;
+  if (!companyIn.value.trim()) { showError(companyIn, companyErr, 'Company name is required.'); ok = false; }
+  else { clearError(companyIn, companyErr); markSuccess(companyIn); }
+  if (!roleIn.value) { showError(roleIn, roleErr, 'Please select your role.'); ok = false; }
+  else { clearError(roleIn, roleErr); markSuccess(roleIn); }
+  if (!industryIn.value) { showError(industryIn, industryErr, 'Please select your industry.'); ok = false; }
+  else { clearError(industryIn, industryErr); markSuccess(industryIn); }
+  if (phoneIn.value && !validatePhone(phoneIn.value)) { showError(phoneIn, phoneErr, 'Enter a valid phone number.'); ok = false; }
+  else { clearError(phoneIn, phoneErr); if (phoneIn.value) markSuccess(phoneIn); }
+  if (!ok) { showToast('Incomplete Fields', 'Please complete all required fields.', true); return; }
+  goToStep(3);
+});
+
+/* ─── STEP 3 SUBMIT ───────────────────────────────────────── */
+$('backBtn3').addEventListener('click', () => goToStep(2));
+$('submitBtn').addEventListener('click', () => {
+  let ok = true;
+  const alertPref = $('alertPref'), alertPrefErr = $('alertPrefError');
+  if (!alertPref.value) { showError(alertPref, alertPrefErr, 'Please select an alert delivery method.'); ok = false; }
+  else { clearError(alertPref, alertPrefErr); markSuccess(alertPref); }
+  const termsEl = $('terms'), termsErr = $('termsError');
+  if (!termsEl.checked) { showDivError(termsErr, 'You must agree to the Terms of Service to continue.'); ok = false; }
+  else hideDivError(termsErr);
+  if (!ok) { showToast('Almost there!', 'Please complete the required fields.', true); return; }
+
+  const btn = $('submitBtn');
+  btn.classList.add('loading'); btn.disabled = true;
+  setTimeout(() => {
+    btn.classList.remove('loading'); btn.disabled = false;
+    showToast('Account Activated!', 'Welcome to Stackly. Setting up your SOC dashboard…', false);
+    // In a real app: window.location.href = './dashboard.html';
+  }, 2500);
+});
+</script>
+</body>
+</html>

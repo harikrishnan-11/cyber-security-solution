@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — Stackly Cyber Defense</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+<div class="scanlines"></div>
+
+
+<!-- Mobile Header -->
+<div class="mobile-header">
+  <a href="./index.html" class="logo">
+         <img src="./src/Untitled design-compressed.webp" alt="">
+        </a>
+  <a href="./index.html" style="color:var(--muted);font-size:13px;text-decoration:none;display:flex;align-items:center;gap:6px;">
+    <i class="fa-solid fa-arrow-left" style="font-size:11px;"></i> Back
+  </a>
+</div>
+
+<div class="auth-layout">
+
+  <!-- ═══ LEFT PANEL ═══ -->
+  <div class="left-panel">
+    <div class="left-panel-img">
+      <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80&auto=format&fit=crop" alt="">
+    </div>
+    <div class="left-content">
+      <a href="./index.html" class="logo">
+         <img src="./src/Untitled design-compressed.webp" alt="">
+        </a>
+    </div>
+    <div class="left-main">
+      <div class="lp-tag"><i class="fa-solid fa-lock"></i> Secure Portal</div>
+      <h2 class="lp-heading">Welcome<br>Back to Your<br><span>Defense Hub</span></h2>
+      <p class="lp-sub">Access real-time threat intelligence, SOC dashboards, and your entire security posture from one command center.</p>
+      <div class="lp-stats">
+        <div class="lp-stat">
+          <div class="lp-stat-icon"><i class="fa-solid fa-shield-virus"></i></div>
+          <div class="lp-stat-text">
+            <strong>14,382 threats blocked today</strong>
+            <span>// Live global feed</span>
+          </div>
+        </div>
+        <div class="lp-stat">
+          <div class="lp-stat-icon"><i class="fa-solid fa-bolt"></i></div>
+          <div class="lp-stat-text">
+            <strong>3.8s average detection speed</strong>
+            <span>// AI-powered analysis</span>
+          </div>
+        </div>
+        <div class="lp-stat">
+          <div class="lp-stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="lp-stat-text">
+            <strong>All systems operational</strong>
+            <span>// SOC 2 Type II certified</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="left-footer">
+      <div class="status-dot"></div>
+      <span>SOC monitoring active &nbsp;·&nbsp; 99.9% uptime &nbsp;·&nbsp; ISO 27001</span>
+    </div>
+  </div>
+
+  <!-- ═══ RIGHT PANEL ═══ -->
+  <div class="right-panel">
+    <div class="form-wrap">
+
+      <div class="form-header">
+        <div class="form-eyebrow"><i class="fa-solid fa-fingerprint"></i> Authentication</div>
+        <h1 class="form-title">Sign In to <span>Stackly</span></h1>
+        <p class="form-sub">New to Stackly? <a href="./signup.html">Create a free account</a> — no credit card required.</p>
+      </div>
+
+      <form id="loginForm" novalidate autocomplete="off">
+
+          <!-- Role -->
+          <div class="form-group" style="margin-bottom:8px;">
+            <div class="role-label"><i class="fa-solid fa-user-shield"></i> Sign in as <span class="required-dot" style="margin-left:2px;"></span></div>
+            <div class="role-cards">
+              <label class="role-card">
+                <input type="radio" name="loginRole" value="user" id="roleUser" checked>
+                <div class="role-card-inner">
+                  <div class="role-card-icon"><i class="fa-solid fa-user"></i></div>
+                  <div class="role-card-name">User</div>
+                  <div class="role-card-desc">Analyst &amp; operator access</div>
+                </div>
+                <div class="role-check"><i class="fa-solid fa-check"></i></div>
+              </label>
+              <label class="role-card">
+                <input type="radio" name="loginRole" value="admin" id="roleAdmin">
+                <div class="role-card-inner">
+                  <div class="role-card-icon"><i class="fa-solid fa-user-gear"></i></div>
+                  <div class="role-card-name">Admin</div>
+                  <div class="role-card-desc">Full SOC &amp; platform control</div>
+                </div>
+                <div class="role-check"><i class="fa-solid fa-check"></i></div>
+              </label>
+            </div>
+            <div class="role-error" id="roleError"><i class="fa-solid fa-circle-exclamation"></i><span>Please select a role.</span></div>
+          </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label class="form-label" for="email">
+            <i class="fa-solid fa-at"></i> Email Address <span class="required-dot"></span>
+          </label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-envelope input-icon"></i>
+            <input
+              type="email"
+              id="email"
+              class="form-input"
+              placeholder="analyst@yourorg.com"
+              autocomplete="email"
+            >
+            <button type="button" class="input-icon-right" id="emailClear" aria-label="Clear email" style="display:none;">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <div class="field-error" id="emailError">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span id="emailErrorMsg">Enter a valid email address.</span>
+          </div>
+        </div>
+
+
+        <!-- Password -->
+        <div class="form-group">
+          <label class="form-label" for="password">
+            <i class="fa-solid fa-key"></i> Password <span class="required-dot"></span>
+          </label>
+          <div class="input-wrap">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input
+              type="password"
+              id="password"
+              class="form-input"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            >
+            <button type="button" class="input-icon-right" id="pwToggle" aria-label="Toggle password">
+              <i class="fa-solid fa-eye" id="pwEye"></i>
+            </button>
+          </div>
+          <div class="field-error" id="passwordError">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span id="passwordErrorMsg">Password is required.</span>
+          </div>
+        </div>
+
+        <!-- Remember + Forgot -->
+        <div class="form-row">
+          <label class="checkbox-wrap" for="remember">
+            <input type="checkbox" id="remember">
+            <div class="custom-check"><i class="fa-solid fa-check"></i></div>
+            <span class="checkbox-label">Keep me signed in</span>
+          </label>
+          <a href="./404.html" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" id="loginBtn">
+          <span class="btn-text"><i class="fa-solid fa-right-to-bracket"></i>&nbsp; Sign In Securely</span>
+          <div class="btn-spinner"></div>
+        </button>
+
+        <!-- MFA note -->
+        <div style="margin-bottom:24px;">
+          <div style="display:flex;align-items:center;gap:8px;background:rgba(0,194,255,0.05);border:1px solid rgba(0,194,255,0.15);border-radius:6px;padding:12px 14px;">
+            <i class="fa-solid fa-mobile-screen-button" style="color:var(--accent);font-size:13px;flex-shrink:0;"></i>
+            <span style="font-size:12px;color:var(--muted);font-family:var(--mono);">MFA verification will be required on next step</span>
+          </div>
+        </div>
+
+      </form>
+
+      <!-- Divider -->
+      <div class="or-divider"><span>or continue with</span></div>
+
+      <!-- Social -->
+      <div class="social-btns">
+        <a href="./404.html" class="btn-social"><i class="fa-brands fa-google"></i> Google SSO</a>
+        <a href="./404.html" class="btn-social"><i class="fa-brands fa-microsoft"></i> Microsoft</a>
+      </div>
+
+      <!-- Security note -->
+      <div class="security-note">
+        <i class="fa-solid fa-shield-halved"></i>
+        256-bit AES encryption &nbsp;·&nbsp; SOC 2 certified &nbsp;·&nbsp; Zero-knowledge auth
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <div class="toast-icon" id="toastIcon"><i class="fa-solid fa-check" id="toastIconI"></i></div>
+  <div>
+    <div class="toast-title" id="toastTitle">Authentication Successful</div>
+    <div class="toast-msg" id="toastMsg">Redirecting to your SOC dashboard…</div>
+  </div>
+</div>
+
+<script>
+/* ─── MATRIX ──────────────────────────────────────────────── */
+(function () {
+  const c = document.getElementById('matrix-canvas'), ctx = c.getContext('2d');
+  c.width = window.innerWidth; c.height = window.innerHeight;
+  const chars = '01アイウエオカキクケコサシスセソ';
+  const cols = Math.floor(c.width / 20), drops = Array(cols).fill(1);
+  function draw() {
+    ctx.fillStyle = 'rgba(7,8,15,0.05)'; ctx.fillRect(0, 0, c.width, c.height);
+    ctx.fillStyle = '#00C2FF'; ctx.font = '13px Space Mono, monospace';
+    drops.forEach((y, i) => {
+      ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * 20, y * 20);
+      if (y * 20 > c.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    });
+  }
+  setInterval(draw, 90);
+  window.addEventListener('resize', () => { c.width = window.innerWidth; c.height = window.innerHeight; });
+})();
+
+/* ─── HELPERS ─────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+
+function showError(inputEl, errorEl, msg) {
+  inputEl.classList.add('error');
+  inputEl.classList.remove('success');
+  errorEl.querySelector('span').textContent = msg;
+  errorEl.classList.add('show');
+}
+function clearError(inputEl, errorEl) {
+  inputEl.classList.remove('error');
+  errorEl.classList.remove('show');
+}
+function markSuccess(inputEl) {
+  inputEl.classList.remove('error');
+  inputEl.classList.add('success');
+}
+
+function validateEmail(val) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+}
+
+/* ─── TOAST ───────────────────────────────────────────────── */
+function showToast(title, msg, isError = false) {
+  const toast = $('toast'), icon = $('toastIcon'), iconI = $('toastIconI');
+  $('toastTitle').textContent = title;
+  $('toastMsg').textContent = msg;
+  if (isError) {
+    icon.className = 'toast-icon error-icon';
+    iconI.className = 'fa-solid fa-triangle-exclamation';
+    toast.style.borderColor = 'rgba(255,61,107,0.3)';
+    toast.style.boxShadow = '0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(255,61,107,0.1)';
+  } else {
+    icon.className = 'toast-icon';
+    iconI.className = 'fa-solid fa-check';
+    toast.style.borderColor = 'rgba(0,255,136,0.3)';
+    toast.style.boxShadow = '0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(0,255,136,0.1)';
+  }
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+/* ─── FIELD INTERACTIONS ──────────────────────────────────── */
+const emailInput = $('email'), emailError = $('emailError');
+const passwordInput = $('password'), passwordError = $('passwordError');
+const pwToggle = $('pwToggle'), pwEye = $('pwEye');
+const emailClear = $('emailClear');
+
+// Email clear button visibility
+emailInput.addEventListener('input', () => {
+  emailClear.style.display = emailInput.value ? 'flex' : 'none';
+  if (emailInput.classList.contains('error') && validateEmail(emailInput.value)) {
+    clearError(emailInput, emailError);
+    markSuccess(emailInput);
+  }
+});
+emailClear.addEventListener('click', () => {
+  emailInput.value = '';
+  emailClear.style.display = 'none';
+  emailInput.classList.remove('success', 'error');
+  emailError.classList.remove('show');
+  emailInput.focus();
+});
+emailInput.addEventListener('blur', () => {
+  if (emailInput.value && !validateEmail(emailInput.value)) {
+    showError(emailInput, emailError, 'Enter a valid email address (e.g. name@company.com).');
+  } else if (emailInput.value) {
+    markSuccess(emailInput);
+  }
+});
+
+// Password toggle
+pwToggle.addEventListener('click', () => {
+  const isText = passwordInput.type === 'text';
+  passwordInput.type = isText ? 'password' : 'text';
+  pwEye.className = isText ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+});
+passwordInput.addEventListener('input', () => {
+  if (passwordInput.classList.contains('error') && passwordInput.value.length >= 8) {
+    clearError(passwordInput, passwordError);
+    markSuccess(passwordInput);
+  }
+});
+passwordInput.addEventListener('blur', () => {
+  if (!passwordInput.value) {
+    showError(passwordInput, passwordError, 'Password is required.');
+  } else if (passwordInput.value.length < 8) {
+    showError(passwordInput, passwordError, 'Password must be at least 8 characters.');
+  } else {
+    clearError(passwordInput, passwordError);
+    markSuccess(passwordInput);
+  }
+});
+
+/* ─── ROLE CARD ANIMATION ─────────────────────────────────── */
+document.querySelectorAll('.role-card input[type="radio"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    $('roleError').classList.remove('show');
+    // Pulse the selected card
+    const inner = radio.nextElementSibling;
+    inner.style.transform = 'scale(0.96)';
+    setTimeout(() => inner.style.transform = '', 150);
+  });
+});
+
+/* ─── FORM SUBMIT ─────────────────────────────────────────── */
+$('loginForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  let isValid = true;
+
+  // Validate role
+  const selectedRole = document.querySelector('input[name="loginRole"]:checked');
+  if (!selectedRole) {
+    $('roleError').classList.add('show');
+    isValid = false;
+  } else {
+    $('roleError').classList.remove('show');
+  }
+
+  // Validate email
+  if (!emailInput.value.trim()) {
+    showError(emailInput, emailError, 'Email address is required.');
+    isValid = false;
+  } else if (!validateEmail(emailInput.value)) {
+    showError(emailInput, emailError, 'Enter a valid email address.');
+    isValid = false;
+  } else {
+    clearError(emailInput, emailError);
+    markSuccess(emailInput);
+  }
+
+  // Validate password
+  if (!passwordInput.value) {
+    showError(passwordInput, passwordError, 'Password is required.');
+    isValid = false;
+  } else if (passwordInput.value.length < 8) {
+    showError(passwordInput, passwordError, 'Password must be at least 8 characters.');
+    isValid = false;
+  } else {
+    clearError(passwordInput, passwordError);
+    markSuccess(passwordInput);
+  }
+
+  if (!isValid) {
+    showToast('Authentication Failed', 'Please fix the errors above to continue.', true);
+    return;
+  }
+
+  const role = selectedRole.value;
+  const btn = $('loginBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  setTimeout(() => {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+    const dest = role === 'admin' ? 'Admin Control Center' : 'SOC Dashboard';
+    showToast('Authentication Successful', `Signed in as ${role.charAt(0).toUpperCase()+role.slice(1)}. Redirecting to ${dest}…`, false);
+    // In a real app:
+    // window.location.href = role === 'admin' ? './admin-dashboard.html' : './dashboard.html';
+  }, 2200);
+});
+
+/* ─── KEYBOARD ACCESSIBILITY ──────────────────────────────── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.activeElement !== $('loginBtn')) {
+    $('loginForm').dispatchEvent(new Event('submit'));
+  }
+});
+</script>
+</body>
+</html>
