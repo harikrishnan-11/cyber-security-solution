@@ -1,0 +1,2576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard — Stackly Cyber Defense</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    /* ── Reset & Variables ── */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #07080F;
+      --bg2: #0D0F1A;
+      --bg3: #111420;
+      --surface: #161924;
+      --surface2: #1C2030;
+      --border: rgba(255, 255, 255, 0.07);
+      --border2: rgba(255, 255, 255, 0.04);
+      --accent: #00C2FF;
+      --accent2: #7B5CFA;
+      --danger: #FF3D6B;
+      --warning: #F59E0B;
+      --success: #00FF88;
+      --text: #E8EAF6;
+      --muted: #6B7280;
+      --muted2: #4B5563;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Space Grotesk', sans-serif;
+      --display: 'Syne', sans-serif;
+      --glow: 0 0 30px rgba(0, 194, 255, 0.12);
+      --sw: 260px;
+      --swc: 68px;
+      --th: 64px;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 194, 255, 0.3);
+      border-radius: 2px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ── Layout ── */
+    .shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sw);
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 300;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .sidebar.collapsed {
+      width: var(--swc);
+    }
+
+    .sb-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 18px;
+      height: var(--th);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .sb-logo-icon {
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 14px;
+    }
+
+    .sb-logo-text {
+      font-family: var(--display);
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      transition: opacity 0.2s;
+    }
+    .sb-logo-text span {
+      color: var(--accent);
+    }
+    .sidebar.collapsed .sb-logo-text {
+      opacity: 0;
+      width: 0;
+    }
+
+    .sb-toggle {
+      position: absolute;
+      top: 50%;
+      right: -12px;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 10px;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.2s;
+    }
+    .sb-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+    .sidebar.collapsed .sb-toggle i {
+      transform: rotate(180deg);
+    }
+
+    .sb-nav {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px 0;
+    }
+    .sb-nav::-webkit-scrollbar {
+      width: 2px;
+    }
+
+    .sb-section-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      padding: 14px 20px 6px;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    .sidebar.collapsed .sb-section-label {
+      opacity: 0;
+    }
+
+    .sb-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 18px;
+      margin: 2px 8px;
+      border-radius: 8px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+    }
+    .sb-item:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .sb-item.active {
+      color: var(--accent);
+      background: rgba(0, 194, 255, 0.08);
+      border: 1px solid rgba(0, 194, 255, 0.15);
+    }
+    .sb-item.active::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 20%;
+      bottom: 20%;
+      width: 3px;
+      border-radius: 0 2px 2px 0;
+      background: var(--accent);
+    }
+    .sb-item i {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .sb-item-text {
+      font-size: 13px;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+    .sidebar.collapsed .sb-item-text {
+      opacity: 0;
+      width: 0;
+    }
+    .sidebar.collapsed .sb-item {
+      justify-content: center;
+      padding: 10px;
+      margin: 2px 6px;
+    }
+    .sidebar.collapsed .sb-item::before {
+      display: none;
+    }
+
+    .sb-badge {
+      margin-left: auto;
+      background: var(--danger);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      font-family: var(--mono);
+      transition: opacity 0.2s;
+    }
+    .sb-badge.warn {
+      background: var(--warning);
+      color: #000;
+    }
+    .sidebar.collapsed .sb-badge {
+      opacity: 0;
+      width: 0;
+      padding: 0;
+    }
+
+    .sidebar.collapsed .sb-item[data-tip]:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      left: calc(100% + 10px);
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 999;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .sb-footer {
+      border-top: 1px solid var(--border);
+      padding: 14px 18px;
+      overflow: hidden;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .sb-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sb-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--display);
+      font-size: 13px;
+      font-weight: 800;
+      color: #000;
+      flex-shrink: 0;
+    }
+    .sb-user-info {
+      overflow: hidden;
+      transition: opacity 0.2s;
+    }
+    .sb-user-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .sb-user-role {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .sidebar.collapsed .sb-user-info {
+      opacity: 0;
+      width: 0;
+    }
+    .sidebar.collapsed .sb-footer {
+      padding: 14px 10px;
+    }
+
+    /* ── Main ── */
+    .main {
+      margin-left: var(--sw);
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .main.collapsed {
+      margin-left: var(--swc);
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      height: var(--th);
+      background: rgba(13, 15, 26, 0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      gap: 12px;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+    .topbar-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+      flex-shrink: 0;
+    }
+    .topbar-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .topbar-hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .topbar-hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .topbar-hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .topbar-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+    .topbar-breadcrumb .crumb-current {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .topbar-breadcrumb i {
+      font-size: 9px;
+    }
+
+    .topbar-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 14px;
+      transition: all 0.2s;
+      min-width: 200px;
+    }
+    .topbar-search:focus-within {
+      border-color: rgba(0, 194, 255, 0.35);
+      box-shadow: 0 0 0 3px rgba(0, 194, 255, 0.06);
+    }
+    .topbar-search i {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .topbar-search input {
+      background: none;
+      border: none;
+      outline: none;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+      width: 100%;
+      caret-color: var(--accent);
+    }
+    .topbar-search input::placeholder {
+      color: var(--muted);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .topbar-email {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px 6px 8px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: var(--mono);
+      white-space: nowrap;
+    }
+    .topbar-email-av {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      color: #000;
+      font-family: var(--display);
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .icon-btn:hover {
+      color: var(--accent);
+      border-color: rgba(0, 194, 255, 0.3);
+    }
+    .notif-dot {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--danger);
+      border: 1.5px solid var(--bg2);
+    }
+
+    .btn-logout {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(255, 61, 107, 0.08);
+      border: 1px solid rgba(255, 61, 107, 0.25);
+      border-radius: 6px;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--danger);
+      cursor: pointer;
+      transition: all 0.25s;
+      white-space: nowrap;
+    }
+    .btn-logout:hover {
+      background: rgba(255, 61, 107, 0.15);
+      box-shadow: 0 0 18px rgba(255, 61, 107, 0.15);
+    }
+
+    /* ── Page Views ── */
+    .page-view {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      animation: fadeIn 0.35s ease;
+    }
+    .page-view.active {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .page-content {
+      padding: 28px;
+      flex: 1;
+    }
+
+    /* ── Page Header ── */
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .page-eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .page-eyebrow::before {
+      content: "//";
+      opacity: 0.5;
+    }
+    .page-title {
+      font-family: var(--display);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .page-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .page-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+      border: none;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateX(-100%) skewX(-15deg);
+      transition: transform 0.35s;
+    }
+    .btn-primary:hover::after {
+      transform: translateX(110%) skewX(-15deg);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 22px rgba(0, 194, 255, 0.35);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover {
+      border-color: rgba(0, 194, 255, 0.3);
+      color: var(--text);
+    }
+    .btn-danger {
+      background: rgba(255, 61, 107, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(255, 61, 107, 0.25);
+    }
+    .btn-danger:hover {
+      background: rgba(255, 61, 107, 0.2);
+    }
+    .btn-success {
+      background: rgba(0, 255, 136, 0.1);
+      color: var(--success);
+      border: 1px solid rgba(0, 255, 136, 0.25);
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border2);
+      gap: 12px;
+    }
+    .card-title {
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title i {
+      color: var(--accent);
+      font-size: 14px;
+    }
+    .card-meta {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .card-body {
+      padding: 22px;
+    }
+    .card-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 4px 10px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    /* ── Stat Cards ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--al, var(--accent));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .stat-card:hover::after {
+      transform: scaleX(1);
+    }
+    .stat-card:hover {
+      border-color: rgba(0, 194, 255, 0.15);
+      box-shadow: var(--glow);
+    }
+    .stat-card.c-red {
+      --al: var(--danger);
+    }
+    .stat-card.c-green {
+      --al: var(--success);
+    }
+    .stat-card.c-warn {
+      --al: var(--warning);
+    }
+    .stat-card.c-purple {
+      --al: var(--accent2);
+    }
+    .stat-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+    .ic-blue {
+      background: rgba(0, 194, 255, 0.1);
+      border: 1px solid rgba(0, 194, 255, 0.2);
+      color: var(--accent);
+    }
+    .ic-red {
+      background: rgba(255, 61, 107, 0.1);
+      border: 1px solid rgba(255, 61, 107, 0.2);
+      color: var(--danger);
+    }
+    .ic-green {
+      background: rgba(0, 255, 136, 0.08);
+      border: 1px solid rgba(0, 255, 136, 0.18);
+      color: var(--success);
+    }
+    .ic-warn {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      color: var(--warning);
+    }
+    .ic-purple {
+      background: rgba(123, 92, 250, 0.1);
+      border: 1px solid rgba(123, 92, 250, 0.2);
+      color: var(--accent2);
+    }
+    .stat-trend {
+      font-family: var(--mono);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 20px;
+    }
+    .trend-up {
+      color: var(--success);
+      background: rgba(0, 255, 136, 0.08);
+    }
+    .trend-down {
+      color: var(--danger);
+      background: rgba(255, 61, 107, 0.08);
+    }
+    .trend-neu {
+      color: var(--warning);
+      background: rgba(245, 158, 11, 0.08);
+    }
+    .stat-num {
+      font-family: var(--display);
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .stat-sub {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted2);
+      margin-top: 8px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border2);
+    }
+
+    /* ── Grids ── */
+    .g21 {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .g12 {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .g3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .g2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .mb24 {
+      margin-bottom: 24px;
+    }
+
+    /* ── Pills ── */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--mono);
+      white-space: nowrap;
+    }
+    .pill-admin {
+      background: rgba(123, 92, 250, 0.12);
+      border: 1px solid rgba(123, 92, 250, 0.25);
+      color: var(--accent2);
+    }
+    .pill-user {
+      background: rgba(0, 194, 255, 0.1);
+      border: 1px solid rgba(0, 194, 255, 0.2);
+      color: var(--accent);
+    }
+    .pill-active {
+      background: rgba(0, 255, 136, 0.08);
+      border: 1px solid rgba(0, 255, 136, 0.18);
+      color: var(--success);
+    }
+    .pill-away {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      color: var(--warning);
+    }
+    .pill-offline {
+      background: rgba(107, 114, 128, 0.1);
+      border: 1px solid rgba(107, 114, 128, 0.2);
+      color: var(--muted);
+    }
+    .pill-crit {
+      background: rgba(255, 61, 107, 0.1);
+      border: 1px solid rgba(255, 61, 107, 0.2);
+      color: var(--danger);
+    }
+    .pill-high {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      color: var(--warning);
+    }
+    .pill-med {
+      background: rgba(0, 194, 255, 0.1);
+      border: 1px solid rgba(0, 194, 255, 0.2);
+      color: var(--accent);
+    }
+    .pill-low {
+      background: rgba(0, 255, 136, 0.08);
+      border: 1px solid rgba(0, 255, 136, 0.18);
+      color: var(--success);
+    }
+    .pill-open {
+      background: rgba(255, 61, 107, 0.1);
+      border: 1px solid rgba(255, 61, 107, 0.2);
+      color: var(--danger);
+    }
+    .pill-inv {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      color: var(--warning);
+    }
+    .pill-res {
+      background: rgba(0, 255, 136, 0.08);
+      border: 1px solid rgba(0, 255, 136, 0.18);
+      color: var(--success);
+    }
+
+    /* ── Tables ── */
+    .tbl-wrap {
+      overflow-x: auto;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 10px 16px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      font-weight: 400;
+      background: var(--bg3);
+      white-space: nowrap;
+    }
+    .data-table td {
+      padding: 12px 16px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border2);
+      vertical-align: middle;
+    }
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+    .data-table tbody tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .user-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mini-av {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--display);
+      font-size: 11px;
+      font-weight: 800;
+      color: #000;
+    }
+    .mini-name {
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .mini-email {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    .tbl-act {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+      margin-right: 4px;
+    }
+    .tbl-act:hover {
+      color: var(--accent);
+      border-color: rgba(0, 194, 255, 0.3);
+    }
+    .tbl-act.del:hover {
+      color: var(--danger);
+      border-color: rgba(255, 61, 107, 0.3);
+    }
+
+    /* ── Threat Feed ── */
+    .threat-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .threat-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border2);
+    }
+    .threat-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .threat-sev {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+    .sev-crit {
+      background: rgba(255, 61, 107, 0.15);
+      border: 1px solid rgba(255, 61, 107, 0.3);
+      color: var(--danger);
+    }
+    .sev-high {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: var(--warning);
+    }
+    .sev-med {
+      background: rgba(0, 194, 255, 0.1);
+      border: 1px solid rgba(0, 194, 255, 0.2);
+      color: var(--accent);
+    }
+    .sev-low {
+      background: rgba(0, 255, 136, 0.08);
+      border: 1px solid rgba(0, 255, 136, 0.15);
+      color: var(--success);
+    }
+    .threat-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .threat-name {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .threat-meta {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .threat-time {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted2);
+      flex-shrink: 0;
+    }
+
+    /* ── Progress ── */
+    .prog-item {
+      margin-bottom: 16px;
+    }
+    .prog-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .prog-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .prog-val {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+    }
+    .prog-bg {
+      height: 6px;
+      background: var(--bg3);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .prog-fill.warn {
+      background: linear-gradient(90deg, var(--warning), #f97316);
+    }
+    .prog-fill.danger {
+      background: linear-gradient(90deg, var(--danger), #ff6b35);
+    }
+
+    /* ── Timeline ── */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+    }
+    .tl-item {
+      display: flex;
+      gap: 14px;
+      padding: 12px 0;
+      position: relative;
+    }
+    .tl-item:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 13px;
+      top: 36px;
+      bottom: -12px;
+      width: 1px;
+      background: var(--border2);
+    }
+    .tl-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      z-index: 1;
+    }
+    .tl-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .tl-action {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .tl-detail {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .tl-time {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted2);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── Quick Actions ── */
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .quick-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 10px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-align: center;
+    }
+    .quick-btn:hover {
+      border-color: rgba(0, 194, 255, 0.25);
+      background: rgba(0, 194, 255, 0.04);
+    }
+    .quick-btn i {
+      font-size: 18px;
+      color: var(--accent);
+    }
+    .quick-btn span {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: var(--mono);
+      line-height: 1.3;
+    }
+
+    /* ── Uptime Bars ── */
+    .uptime-bars {
+      display: flex;
+      gap: 3px;
+      height: 40px;
+      align-items: flex-end;
+    }
+    .uptime-bar {
+      flex: 1;
+      border-radius: 2px;
+      transition: opacity 0.2s;
+    }
+    .uptime-bar:hover {
+      opacity: 0.7;
+    }
+    .uptime-bar.up {
+      background: var(--success);
+    }
+    .uptime-bar.warn-b {
+      background: var(--warning);
+    }
+    .uptime-bar.down-b {
+      background: var(--danger);
+    }
+
+    /* ── Dropdowns ── */
+    .dd-wrap {
+      position: relative;
+    }
+    .notif-dd,
+    .profile-dd {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+      overflow: hidden;
+    }
+    .notif-dd {
+      width: 320px;
+    }
+    .profile-dd {
+      width: 240px;
+    }
+    .notif-dd.open,
+    .profile-dd.open {
+      display: block;
+      animation: dropIn 0.25s ease;
+    }
+    @keyframes dropIn {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .dd-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dd-header-title {
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .notif-entry {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border2);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .notif-entry:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .notif-entry:last-child {
+      border-bottom: none;
+    }
+    .notif-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+    .notif-msg {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .notif-t {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .notif-unread {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    .profile-hd {
+      padding: 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .profile-av {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--display);
+      font-size: 16px;
+      font-weight: 800;
+      color: #000;
+    }
+    .profile-name {
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .profile-email {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .profile-role {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 6px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(123, 92, 250, 0.12);
+      border: 1px solid rgba(123, 92, 250, 0.25);
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--accent2);
+    }
+
+    .pm-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 18px;
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .pm-item:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .pm-item i {
+      font-size: 13px;
+      width: 16px;
+    }
+    .pm-item.pm-logout {
+      color: var(--danger);
+      border-top: 1px solid var(--border2);
+    }
+    .pm-item.pm-logout:hover {
+      background: rgba(255, 61, 107, 0.07);
+    }
+
+    /* ── Overlay + Mobile ── */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 8, 15, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 299;
+    }
+    .sidebar-overlay.show {
+      display: block;
+    }
+
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: repeating-linear-gradient(0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 194, 255, 0.007) 2px,
+          rgba(0, 194, 255, 0.007) 4px);
+    }
+
+    /* ── Status Bar ── */
+    .status-bar {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 8px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .status-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .sb-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+    .sb-dot.on {
+      background: var(--success);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.4;
+      }
+    }
+
+    /* ── Forms ── */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .form-input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 11px 14px;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      transition: all 0.25s;
+      caret-color: var(--accent);
+    }
+    .form-input:focus {
+      border-color: var(--accent);
+      background: rgba(0, 194, 255, 0.04);
+      box-shadow: 0 0 0 3px rgba(0, 194, 255, 0.08);
+    }
+    .form-input::placeholder {
+      color: var(--muted);
+      opacity: 0.6;
+    }
+    select.form-input {
+      appearance: none;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+    select.form-input option {
+      background: var(--surface);
+      color: var(--text);
+    }
+    .form-row2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* ── Chart ── */
+    .chart-wrap {
+      position: relative;
+      height: 180px;
+    }
+    .chart-ylabels {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      text-align: right;
+      width: 32px;
+    }
+    .chart-area {
+      position: absolute;
+      left: 40px;
+      right: 0;
+      top: 0;
+      bottom: 24px;
+    }
+    .chart-grid {
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-top: 1px solid var(--border2);
+    }
+    .chart-xlabels {
+      position: absolute;
+      left: 40px;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .chart-legend {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border2);
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* ── Toggle ── */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border2);
+    }
+    .toggle-row:last-child {
+      border-bottom: none;
+    }
+    .toggle-label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .toggle-desc {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .toggle {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle input {
+      display: none;
+    }
+    .toggle-track {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+    .toggle input:checked+.toggle-track {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .toggle-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #000;
+      transition: left 0.25s;
+    }
+    .toggle input:checked~.toggle-thumb {
+      left: 21px;
+    }
+
+    /* ── Report Cards ── */
+    .report-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.25s;
+      margin-bottom: 12px;
+    }
+    .report-card:hover {
+      border-color: rgba(0, 194, 255, 0.2);
+      box-shadow: var(--glow);
+    }
+    .report-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .report-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .report-name {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .report-meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .report-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1200px) {
+      .stat-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .g21,
+      .g12 {
+        grid-template-columns: 1fr;
+      }
+      .g3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .sidebar {
+        transform: translateX(-100%);
+        width: var(--sw) !important;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .sidebar.mobile-open {
+        transform: translateX(0);
+        box-shadow: 4px 0 40px rgba(0, 0, 0, 0.6);
+      }
+      .main {
+        margin-left: 0 !important;
+      }
+      .topbar-hamburger {
+        display: flex;
+      }
+      .sb-toggle {
+        display: none;
+      }
+      .topbar-search {
+        display: none;
+      }
+      .page-content {
+        padding: 20px 16px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .stat-row {
+        grid-template-columns: 1fr;
+      }
+      .g2,
+      .g3 {
+        grid-template-columns: 1fr;
+      }
+      .page-header {
+        flex-direction: column;
+      }
+      .btn-logout span {
+        display: none;
+      }
+      .topbar {
+        padding: 0 16px;
+      }
+      .status-bar {
+        display: none;
+      }
+      .form-row2 {
+        grid-template-columns: 1fr;
+      }
+      .topbar-email {
+        padding: 6px 10px 6px 8px;
+      }
+      .data-table th:nth-child(3),
+      .data-table td:nth-child(3),
+      .data-table th:nth-child(5),
+      .data-table td:nth-child(5) {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="scanlines"></div>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <div class="sb-logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      <div class="sb-logo-text">Stack<span>ly</span></div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-section-label">Overview</div>
+      <div class="sb-item active" data-page="dashboard" data-tip="Dashboard"><i class="fa-solid fa-chart-pie"></i><span
+          class="sb-item-text">Dashboard</span></div>
+      <div class="sb-item" data-page="alerts" data-tip="Alerts"><i class="fa-solid fa-bell"></i><span
+          class="sb-item-text">Alerts</span><span class="sb-badge">8</span></div>
+      <div class="sb-item" data-page="threats" data-tip="Threats"><i class="fa-solid fa-shield-virus"></i><span
+          class="sb-item-text">Threats</span></div>
+
+      <div class="sb-section-label">Security</div>
+      <div class="sb-item" data-page="incidents" data-tip="Incidents"><i
+          class="fa-solid fa-triangle-exclamation"></i><span class="sb-item-text">Incidents</span></div>
+      <div class="sb-item" data-page="vulns" data-tip="Vulnerabilities"><i class="fa-solid fa-bug"></i><span
+          class="sb-item-text">Vulnerabilities</span></div>
+      <div class="sb-item" data-page="assets" data-tip="Assets"><i class="fa-solid fa-server"></i><span
+          class="sb-item-text">Assets</span></div>
+
+      <div class="sb-section-label">Resources</div>
+      <div class="sb-item" data-page="reports" data-tip="Reports"><i class="fa-solid fa-file-chart-column"></i><span
+          class="sb-item-text">Reports</span></div>
+      <div class="sb-item" data-page="logs" data-tip="Activity Logs"><i class="fa-solid fa-scroll"></i><span
+          class="sb-item-text">Activity Logs</span></div>
+      <div class="sb-item" data-page="settings" data-tip="Settings"><i class="fa-solid fa-gear"></i><span
+          class="sb-item-text">Settings</span></div>
+    </nav>
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="sb-avatar">JD</div>
+        <div class="sb-user-info">
+          <div class="sb-user-name">John Doe</div>
+          <div class="sb-user-role">// Security Analyst</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN ═══ -->
+  <div class="main" id="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="topbar-hamburger" id="hamburger" aria-label="Toggle sidebar">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="topbar-breadcrumb">
+          <span>Stackly</span>
+          <i class="fa-solid fa-chevron-right"></i>
+          <span class="crumb-current" id="breadcrumbCurrent">Dashboard</span>
+        </div>
+        <div class="topbar-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search…" id="globalSearch" />
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-email">
+          <div class="topbar-email-av">JD</div>
+          <span>john.doe@stackly.io</span>
+        </div>
+        <div class="dd-wrap">
+          <div class="icon-btn" id="notifBtn"><i class="fa-solid fa-bell"></i><span class="notif-dot"></span></div>
+          <div class="notif-dd" id="notifDd">
+            <div class="dd-header"><span class="dd-header-title">Notifications</span><span
+                style="font-family:var(--mono);font-size:10px;color:var(--accent);cursor:pointer;">Mark all read</span>
+            </div>
+            <div class="notif-entry">
+              <div class="notif-icon sev-high"><i class="fa-solid fa-shield-halved"></i></div>
+              <div style="flex:1;">
+                <div class="notif-msg">Suspicious login attempt detected</div>
+                <div class="notif-t">5 min ago</div>
+              </div>
+              <div class="notif-unread"></div>
+            </div>
+            <div class="notif-entry">
+              <div class="notif-icon sev-med"><i class="fa-solid fa-bug"></i></div>
+              <div style="flex:1;">
+                <div class="notif-msg">New vulnerability in your stack</div>
+                <div class="notif-t">22 min ago</div>
+              </div>
+              <div class="notif-unread"></div>
+            </div>
+            <div class="notif-entry">
+              <div class="notif-icon sev-low"><i class="fa-solid fa-certificate"></i></div>
+              <div style="flex:1;">
+                <div class="notif-msg">Compliance report available</div>
+                <div class="notif-t">1 hr ago</div>
+              </div>
+            </div>
+            <div class="notif-entry">
+              <div class="notif-icon sev-crit"><i class="fa-solid fa-triangle-exclamation"></i></div>
+              <div style="flex:1;">
+                <div class="notif-msg">Critical: APT29 IOCs detected</div>
+                <div class="notif-t">2 hr ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dd-wrap">
+          <div class="icon-btn" id="profileBtn"><i class="fa-solid fa-circle-user"></i></div>
+          <div class="profile-dd" id="profileDd">
+            <div class="profile-hd">
+              <div class="profile-av">JD</div>
+              <div>
+                <div class="profile-name">John Doe</div>
+                <div class="profile-email">john.doe@stackly.io</div>
+                <div class="profile-role"><i class="fa-solid fa-shield-halved"></i> Security Analyst</div>
+              </div>
+            </div>
+            <div class="pm-item"><i class="fa-solid fa-user"></i> My Profile</div>
+            <div class="pm-item"><i class="fa-solid fa-gear"></i> Preferences</div>
+            <div class="pm-item"><i class="fa-solid fa-key"></i> Security Settings</div>
+            <div class="pm-item pm-logout" id="profileLogout"><i class="fa-solid fa-right-from-bracket"></i> Sign Out
+            </div>
+          </div>
+        </div>
+        <button class="btn-logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></button>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════
+         PAGE: DASHBOARD
+    ═══════════════════════════════════════════ -->
+    <div class="page-view active" id="page-dashboard">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="page-eyebrow"><i class="fa-solid fa-chart-pie"></i> My Security Dashboard</div>
+            <h1 class="page-title">Security Overview</h1>
+            <p class="page-sub">Your personalized security status · <span id="liveTime"
+                style="color:var(--accent);font-family:var(--mono);font-size:12px;"></span></p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-outline"><i class="fa-solid fa-download"></i> Export</button>
+            <button class="btn btn-primary"><i class="fa-solid fa-flag"></i> Report Issue</button>
+          </div>
+        </div>
+
+        <!-- Stat cards - User specific -->
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon ic-blue"><i class="fa-solid fa-shield-check"></i></div>
+              <div class="stat-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 100%</div>
+            </div>
+            <div class="stat-num">1.8K</div>
+            <div class="stat-label">Threats Blocked</div>
+            <div class="stat-sub">This month</div>
+          </div>
+          <div class="stat-card c-green">
+            <div class="stat-top">
+              <div class="stat-icon ic-green"><i class="fa-solid fa-lock"></i></div>
+              <div class="stat-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 99.8%</div>
+            </div>
+            <div class="stat-num">98%</div>
+            <div class="stat-label">Security Score</div>
+            <div class="stat-sub">Excellent</div>
+          </div>
+          <div class="stat-card c-warn">
+            <div class="stat-top">
+              <div class="stat-icon ic-warn"><i class="fa-solid fa-clock"></i></div>
+              <div class="stat-trend trend-neu"><i class="fa-solid fa-minus"></i> 0%</div>
+            </div>
+            <div class="stat-num">3</div>
+            <div class="stat-label">Open Alerts</div>
+            <div class="stat-sub">1 High · 2 Medium</div>
+          </div>
+          <div class="stat-card c-purple">
+            <div class="stat-top">
+              <div class="stat-icon ic-purple"><i class="fa-solid fa-users"></i></div>
+              <div class="stat-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 12%</div>
+            </div>
+            <div class="stat-num">2</div>
+            <div class="stat-label">Active Sessions</div>
+            <div class="stat-sub">1 Desktop · 1 Mobile</div>
+          </div>
+        </div>
+
+        <!-- Recent Activity + Quick Access -->
+        <div class="g21">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Security Activity</div>
+              <span class="card-tag">LIVE</span>
+            </div>
+            <div class="card-body" style="padding-top:10px;">
+              <div class="timeline">
+                <div class="tl-item">
+                  <div class="tl-dot sev-crit"><i class="fa-solid fa-shield-halved"></i></div>
+                  <div class="tl-body">
+                    <div class="tl-action">Login Attempt Blocked</div>
+                    <div class="tl-detail">Suspicious login from 192.168.1.45</div>
+                  </div>
+                  <div class="tl-time">2m</div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot sev-high"><i class="fa-solid fa-bug"></i></div>
+                  <div class="tl-body">
+                    <div class="tl-action">Vulnerability Detected</div>
+                    <div class="tl-detail">CVE-2024-7821 in your stack</div>
+                  </div>
+                  <div class="tl-time">18m</div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot sev-low"><i class="fa-solid fa-certificate"></i></div>
+                  <div class="tl-body">
+                    <div class="tl-action">Compliance Check Passed</div>
+                    <div class="tl-detail">SOC 2 control AC-2 verified</div>
+                  </div>
+                  <div class="tl-time">1h</div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot ic-blue"><i class="fa-solid fa-rotate"></i></div>
+                  <div class="tl-body">
+                    <div class="tl-action">Security Scan Completed</div>
+                    <div class="tl-detail">Full system scan · 0 threats found</div>
+                  </div>
+                  <div class="tl-time">3h</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-bolt"></i> Quick Access</div>
+            </div>
+            <div class="card-body">
+              <div class="quick-grid">
+                <div class="quick-btn" onclick="navigateTo('alerts')"><i class="fa-solid fa-bell"></i><span>View
+                    Alerts</span></div>
+                <div class="quick-btn" onclick="navigateTo('incidents')"><i
+                    class="fa-solid fa-triangle-exclamation"></i><span>Incidents</span></div>
+                <div class="quick-btn" onclick="navigateTo('vulns')"><i class="fa-solid fa-bug"></i><span>Vulnerabilities</span>
+                </div>
+                <div class="quick-btn" onclick="navigateTo('reports')"><i
+                    class="fa-solid fa-file-export"></i><span>Reports</span></div>
+                <div class="quick-btn" onclick="navigateTo('assets')"><i class="fa-solid fa-server"></i><span>Assets</span>
+                </div>
+                <div class="quick-btn" onclick="navigateTo('settings')"><i class="fa-solid fa-gear"></i><span>Settings</span>
+                </div>
+              </div>
+              <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border2);">
+                <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+                  <span style="font-size:12px;font-weight:600;">System Uptime</span>
+                  <span style="font-family:var(--mono);font-size:11px;color:var(--success);">99.97%</span>
+                </div>
+                <div class="uptime-bars" id="uptimeBars"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- My Assets + Security Tips -->
+        <div class="g2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-server"></i> My Registered Assets</div>
+              <span class="card-meta">3 total</span>
+            </div>
+            <div class="card-body" style="padding-top:10px;">
+              <div style="display:flex;flex-direction:column;gap:12px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg3);border-radius:8px;border:1px solid var(--border);">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <i class="fa-solid fa-desktop" style="color:var(--accent);font-size:18px;"></i>
+                    <div>
+                      <div style="font-weight:600;font-size:13px;">DESKTOP-XYZ</div>
+                      <div style="font-size:11px;color:var(--muted);">Last seen: 2 min ago</div>
+                    </div>
+                  </div>
+                  <span class="pill pill-active">Protected</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg3);border-radius:8px;border:1px solid var(--border);">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <i class="fa-solid fa-laptop" style="color:var(--accent2);font-size:18px;"></i>
+                    <div>
+                      <div style="font-weight:600;font-size:13px;">LAPTOP-ABC</div>
+                      <div style="font-size:11px;color:var(--muted);">Last seen: 1 hr ago</div>
+                    </div>
+                  </div>
+                  <span class="pill pill-active">Protected</span>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg3);border-radius:8px;border:1px solid var(--border);">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <i class="fa-solid fa-cloud" style="color:var(--warning);font-size:18px;"></i>
+                    <div>
+                      <div style="font-weight:600;font-size:13px;">Cloud-Resource-01</div>
+                      <div style="font-size:11px;color:var(--muted);">AWS · us-east-1</div>
+                    </div>
+                  </div>
+                  <span class="pill pill-active">Protected</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-lightbulb"></i> Security Tips</div>
+            </div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:14px;">
+                <div style="display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--bg3);border-radius:8px;border-left:3px solid var(--success);">
+                  <i class="fa-solid fa-check-circle" style="color:var(--success);font-size:18px;margin-top:2px;"></i>
+                  <div>
+                    <div style="font-weight:600;font-size:13px;">2FA Enabled</div>
+                    <div style="font-size:12px;color:var(--muted);">Your account is secured with two-factor authentication.</div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--bg3);border-radius:8px;border-left:3px solid var(--warning);">
+                  <i class="fa-solid fa-clock" style="color:var(--warning);font-size:18px;margin-top:2px;"></i>
+                  <div>
+                    <div style="font-weight:600;font-size:13px;">Update Available</div>
+                    <div style="font-size:12px;color:var(--muted);">A security update is available for your system.</div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--bg3);border-radius:8px;border-left:3px solid var(--accent);">
+                  <i class="fa-solid fa-shield-halved" style="color:var(--accent);font-size:18px;margin-top:2px;"></i>
+                  <div>
+                    <div style="font-weight:600;font-size:13px;">Strong Password</div>
+                    <div style="font-size:12px;color:var(--muted);">Your password strength is Excellent (Score: 98/100).</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: ALERTS ═══ -->
+    <div class="page-view" id="page-alerts">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="page-eyebrow"><i class="fa-solid fa-bell"></i> Alerts</div>
+            <h1 class="page-title">Security Alerts</h1>
+            <p class="page-sub">Real-time notifications about your security posture.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-outline"><i class="fa-solid fa-filter"></i> Filter</button>
+            <button class="btn btn-primary"><i class="fa-solid fa-check-double"></i> Mark All Read</button>
+          </div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-card c-red"><div class="stat-top"><div class="stat-icon ic-red"><i class="fa-solid fa-circle-exclamation"></i></div></div><div class="stat-num">1</div><div class="stat-label">Critical</div><div class="stat-sub">Requires immediate attention</div></div>
+          <div class="stat-card c-warn"><div class="stat-top"><div class="stat-icon ic-warn"><i class="fa-solid fa-triangle-exclamation"></i></div></div><div class="stat-num">2</div><div class="stat-label">High Priority</div><div class="stat-sub">Review within 24 hours</div></div>
+          <div class="stat-card"><div class="stat-top"><div class="stat-icon ic-blue"><i class="fa-solid fa-circle-info"></i></div></div><div class="stat-num">5</div><div class="stat-label">Informational</div><div class="stat-sub">No action required</div></div>
+          <div class="stat-card c-green"><div class="stat-top"><div class="stat-icon ic-green"><i class="fa-solid fa-check-double"></i></div></div><div class="stat-num">12</div><div class="stat-label">Resolved</div><div class="stat-sub">Closed this week</div></div>
+        </div>
+        <div class="card mb24">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-list"></i> All Alerts</div>
+            <span class="card-tag" style="color:var(--warning);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.08);">8 ACTIVE</span>
+          </div>
+          <div class="tbl-wrap">
+            <table class="data-table">
+              <thead><tr><th>Alert</th><th>Severity</th><th>Source</th><th>Status</th><th>Time</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td style="font-weight:600;">Suspicious Login Attempt</td><td><span class="pill pill-high">High</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">192.168.1.45</td><td><span class="pill pill-open">Active</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">2m</td><td><span class="tbl-act" title="View"><i class="fa-solid fa-eye"></i></span><span class="tbl-act" title="Dismiss"><i class="fa-solid fa-check"></i></span></td></tr>
+                <tr><td style="font-weight:600;">CVE-2024-7821 Detected</td><td><span class="pill pill-high">High</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Vulnerability Scanner</td><td><span class="pill pill-inv">Investigating</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">18m</td><td><span class="tbl-act"><i class="fa-solid fa-eye"></i></span><span class="tbl-act"><i class="fa-solid fa-check"></i></span></td></tr>
+                <tr><td style="font-weight:600;">Unusual Traffic Pattern</td><td><span class="pill pill-med">Medium</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Network Monitor</td><td><span class="pill pill-inv">Analyzing</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">45m</td><td><span class="tbl-act"><i class="fa-solid fa-eye"></i></span><span class="tbl-act"><i class="fa-solid fa-check"></i></span></td></tr>
+                <tr><td style="font-weight:600;">Password Change Request</td><td><span class="pill pill-med">Medium</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">User Account</td><td><span class="pill pill-res">Resolved</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">2h</td><td><span class="tbl-act"><i class="fa-solid fa-eye"></i></span><span class="tbl-act"><i class="fa-solid fa-check"></i></span></td></tr>
+                <tr><td style="font-weight:600;">Software Update Available</td><td><span class="pill pill-low">Low</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">System</td><td><span class="pill pill-res">Resolved</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">4h</td><td><span class="tbl-act"><i class="fa-solid fa-eye"></i></span><span class="tbl-act"><i class="fa-solid fa-check"></i></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: THREATS ═══ -->
+    <div class="page-view" id="page-threats">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="page-eyebrow"><i class="fa-solid fa-shield-virus"></i> Threat Center</div>
+            <h1 class="page-title">Threat Monitor</h1>
+            <p class="page-sub">Active threats detected in your environment.</p>
+          </div>
+          <div class="page-actions"><button class="btn btn-primary"><i class="fa-solid fa-rotate"></i> Refresh</button></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-card c-red"><div class="stat-top"><div class="stat-icon ic-red"><i class="fa-solid fa-shield-virus"></i></div></div><div class="stat-num">0</div><div class="stat-label">Critical Threats</div><div class="stat-sub">All clear</div></div>
+          <div class="stat-card c-warn"><div class="stat-top"><div class="stat-icon ic-warn"><i class="fa-solid fa-triangle-exclamation"></i></div></div><div class="stat-num">1</div><div class="stat-label">Active Threats</div><div class="stat-sub">Requires attention</div></div>
+          <div class="stat-card c-green"><div class="stat-top"><div class="stat-icon ic-green"><i class="fa-solid fa-check-circle"></i></div></div><div class="stat-num">1.8K</div><div class="stat-label">Threats Blocked</div><div class="stat-sub">This month</div></div>
+          <div class="stat-card"><div class="stat-top"><div class="stat-icon ic-blue"><i class="fa-solid fa-clock"></i></div></div><div class="stat-num">3.2s</div><div class="stat-label">Avg Response Time</div><div class="stat-sub">Faster than 95% of users</div></div>
+        </div>
+        <div class="card mb24">
+          <div class="card-header">
+            <div class="card-title"><i class="fa-solid fa-list"></i> Threat Feed</div>
+          </div>
+          <div class="tbl-wrap">
+            <table class="data-table">
+              <thead><tr><th>Threat</th><th>Type</th><th>Severity</th><th>Source</th><th>Status</th><th>Time</th></tr></thead>
+              <tbody>
+                <tr><td style="font-weight:600;">APT29 Campaign</td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Ransomware</td><td><span class="pill pill-crit">Critical</span></td><td style="font-family:var(--mono);font-size:11px;">RU</td><td><span class="pill pill-res">Blocked</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">2m</td></tr>
+                <tr><td style="font-weight:600;">Phishing Attempt</td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Phishing</td><td><span class="pill pill-high">High</span></td><td style="font-family:var(--mono);font-size:11px;">US</td><td><span class="pill pill-res">Blocked</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">11m</td></tr>
+                <tr><td style="font-weight:600;">DDoS Attack</td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">DDoS</td><td><span class="pill pill-med">Medium</span></td><td style="font-family:var(--mono);font-size:11px;">BR</td><td><span class="pill pill-res">Mitigated</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">38m</td></tr>
+                <tr><td style="font-weight:600;">Port Scan</td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Recon</td><td><span class="pill pill-low">Low</span></td><td style="font-family:var(--mono);font-size:11px;">CN</td><td><span class="pill pill-res">Blocked</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">1h</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: INCIDENTS ═══ -->
+    <div class="page-view" id="page-incidents">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="page-eyebrow"><i class="fa-solid fa-triangle-exclamation"></i> Incident Response</div>
+            <h1 class="page-title">Incidents</h1>
+            <p class="page-sub">Track and respond to security incidents.</p>
+          </div>
+          <div class="page-actions"><button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Report Incident</button></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-card c-red"><div class="stat-top"><div class="stat-icon ic-red"><i class="fa-solid fa-circle-exclamation"></i></div></div><div class="stat-num">0</div><div class="stat-label">Open Incidents</div><div class="stat-sub">No active incidents</div></div>
+          <div class="stat-card c-warn"><div class="stat-top"><div class="stat-icon ic-warn"><i class="fa-solid fa-hourglass-half"></i></div></div><div class="stat-num">2</div><div class="stat-label">Under Investigation</div><div class="stat-sub">Avg age 2.1 hrs</div></div>
+          <div class="stat-card c-green"><div class="stat-top"><div class="stat-icon ic-green"><i class="fa-solid fa-circle-check"></i></div></div><div class="stat-num">24</div><div class="stat-label">Resolved</div><div class="stat-sub">This month</div></div>
+          <div class="stat-card"><div class="stat-top"><div class="stat-icon ic-blue"><i class="fa-solid fa-stopwatch"></i></div></div><div class="stat-num">12 min</div><div class="stat-label">Avg Response Time</div><div class="stat-sub">SLA target: 30 min</div></div>
+        </div>
+        <div class="card mb24">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-list-check"></i> Incident History</div></div>
+          <div class="tbl-wrap">
+            <table class="data-table">
+              <thead><tr><th>ID</th><th>Title</th><th>Severity</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--accent);">#4823</td><td style="font-weight:600;">Suspicious Login Attempt</td><td><span class="pill pill-high">High</span></td><td><span class="pill pill-inv">Investigating</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Jun 23, 09:32</td><td><span class="tbl-act"><i class="fa-solid fa-eye"></i></span></td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--accent);">#4822</td><td style="font-weight:600;">CVE-2024-7821 Detection</td><td><span class="pill pill-high">High</span></td><td><span class="pill pill-inv">Investigating</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Jun 23, 08:45</td><td><span class="tbl-act"><i class="fa-solid fa-eye"></i></span></td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--accent);">#4820</td><td style="font-weight:600;">Unusual Traffic Spike</td><td><span class="pill pill-med">Medium</span></td><td><span class="pill pill-res">Resolved</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Jun 22, 20:01</td><td><span class="tbl-act"><i class="fa-solid fa-eye"></i></span></td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--accent);">#4817</td><td style="font-weight:600;">Failed Login Attempts</td><td><span class="pill pill-low">Low</span></td><td><span class="pill pill-res">Resolved</span></td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Jun 22, 17:38</td><td><span class="tbl-act"><i class="fa-solid fa-eye"></i></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: VULNERABILITIES ═══ -->
+    <div class="page-view" id="page-vulns">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="page-eyebrow"><i class="fa-solid fa-bug"></i> Vulnerabilities</div>
+            <h1 class="page-title">Vulnerability Management</h1>
+            <p class="page-sub">Track and remediate vulnerabilities in your environment.</p>
+          </div>
+          <div class="page-actions"><button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Run Scan</button></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-card c-red"><div class="stat-top"><div class="stat-icon ic-red"><i class="fa-solid fa-circle-exclamation"></i></div></div><div class="stat-num">0</div><div class="stat-label">Critical</div><div class="stat-sub">All clear</div></div>
+          <div class="stat-card c-warn"><div class="stat-top"><div class="stat-icon ic-warn"><i class="fa-solid fa-triangle-exclamation"></i></div></div><div class="stat-num">1</div><div class="stat-label">High</div><div class="stat-sub">Patch within 7 days</div></div>
+          <div class="stat-card"><div class="stat-top"><div class="stat-icon ic-blue"><i class="fa-solid fa-circle-info"></i></div></div><div class="stat-num">3</div><div class="stat-label">Medium / Low</div><div class="stat-sub">Scheduled patching</div></div>
+          <div class="stat-card c-green"><div class="stat-top"><div class="stat-icon ic-green"><i class="fa-solid fa-check-double"></i></div></div><div class="stat-num">14</div><div class="stat-label">Patched</div><div class="stat-sub">This month</div></div>
+        </div>
+        <div class="card mb24">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-bug"></i> Open Vulnerabilities</div></div>
+          <div class="tbl-wrap">
+            <table class="data-table">
+              <thead><tr><th>CVE ID</th><th>Description</th><th>CVSS</th><th>Severity</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--accent);">CVE-2024-5901</td><td>Authentication bypass in Nginx 1.24</td><td style="font-family:var(--mono);font-size:12px;color:var(--warning);">8.2</td><td><span class="pill pill-high">High</span></td><td><span class="pill pill-inv">Scheduled</span></td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--accent);">CVE-2024-4411</td><td>XSS stored in admin panel</td><td style="font-family:var(--mono);font-size:12px;color:var(--warning);">7.4</td><td><span class="pill pill-high">High</span></td><td><span class="pill pill-res">Patched</span></td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--accent);">CVE-2024-3102</td><td>SSRF in image processing service</td><td style="font-family:var(--mono);font-size:12px;color:var(--accent);">5.9</td><td><span class="pill pill-med">Medium</span></td><td><span class="pill pill-res">Patched</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: ASSETS ═══ -->
+    <div class="page-view" id="page-assets">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="page-eyebrow"><i class="fa-solid fa-server"></i> Assets</div>
+            <h1 class="page-title">My Assets</h1>
+            <p class="page-sub">All devices and resources registered to your account.</p>
+          </div>
+          <div class="page-actions"><button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Register Asset</button></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-card"><div class="stat-top"><div class="stat-icon ic-blue"><i class="fa-solid fa-server"></i></div></div><div class="stat-num">3</div><div class="stat-label">Total Assets</div><div class="stat-sub">All protected</div></div>
+          <div class="stat-card c-green"><div class="stat-top"><div class="stat-icon ic-green"><i class="fa-solid fa-shield-check"></i></div></div><div class="stat-num">3</div><div class="stat-label">Protected</div><div class="stat-sub">EDR agent installed</div></div>
+          <div class="stat-card c-warn"><div class="stat-top"><div class="stat-icon ic-warn"><i class="fa-solid fa-clock"></i></div></div><div class="stat-num">0</div><div class="stat-label">At Risk</div><div class="stat-sub">No action needed</div></div>
+          <div class="stat-card c-purple"><div class="stat-top"><div class="stat-icon ic-purple"><i class="fa-solid fa-cloud"></i></div></div><div class="stat-num">1</div><div class="stat-label">Cloud Resources</div><div class="stat-sub">AWS</div></div>
+        </div>
+        <div class="card mb24">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-list"></i> Asset List</div></div>
+          <div class="tbl-wrap">
+            <table class="data-table">
+              <thead><tr><th>Asset</th><th>Type</th><th>IP Address</th><th>Status</th><th>Risk</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td style="font-weight:600;">DESKTOP-XYZ</td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Workstation</td><td style="font-family:var(--mono);font-size:11px;">192.168.1.10</td><td><span class="pill pill-active">Protected</span></td><td><span class="pill pill-low">Low</span></td><td><span class="tbl-act"><i class="fa-solid fa-eye"></i></span></td></tr>
+                <tr><td style="font-weight:600;">LAPTOP-ABC</td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Laptop</td><td style="font-family:var(--mono);font-size:11px;">192.168.1.15</td><td><span class="pill pill-active">Protected</span></td><td><span class="pill pill-low">Low</span></td><td><span class="tbl-act"><i class="fa-solid fa-eye"></i></span></td></tr>
+                <tr><td style="font-weight:600;">Cloud-Resource-01</td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Cloud EC2</td><td style="font-family:var(--mono);font-size:11px;">54.12.xx.xx</td><td><span class="pill pill-active">Protected</span></td><td><span class="pill pill-low">Low</span></td><td><span class="tbl-act"><i class="fa-solid fa-eye"></i></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: REPORTS ═══ -->
+    <div class="page-view" id="page-reports">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="page-eyebrow"><i class="fa-solid fa-file-chart-column"></i> Reports</div>
+            <h1 class="page-title">Reports</h1>
+            <p class="page-sub">Security reports and analytics.</p>
+          </div>
+          <div class="page-actions"><button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Generate Report</button></div>
+        </div>
+        <div class="g2">
+          <div>
+            <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Available Reports</div>
+            <div class="report-card">
+              <div class="report-icon ic-blue"><i class="fa-solid fa-shield-halved"></i></div>
+              <div class="report-info">
+                <div class="report-name">Security Summary</div>
+                <div class="report-meta">Daily · PDF</div>
+              </div>
+              <div class="report-actions"><button class="btn btn-outline" style="padding:7px 12px;font-size:12px;"><i class="fa-solid fa-eye"></i></button><button class="btn btn-primary" style="padding:7px 12px;font-size:12px;"><i class="fa-solid fa-download"></i></button></div>
+            </div>
+            <div class="report-card">
+              <div class="report-icon ic-purple"><i class="fa-solid fa-bug"></i></div>
+              <div class="report-info">
+                <div class="report-name">Vulnerability Assessment</div>
+                <div class="report-meta">Weekly · PDF + JSON</div>
+              </div>
+              <div class="report-actions"><button class="btn btn-outline" style="padding:7px 12px;font-size:12px;"><i class="fa-solid fa-eye"></i></button><button class="btn btn-primary" style="padding:7px 12px;font-size:12px;"><i class="fa-solid fa-download"></i></button></div>
+            </div>
+            <div class="report-card">
+              <div class="report-icon ic-red"><i class="fa-solid fa-satellite-dish"></i></div>
+              <div class="report-info">
+                <div class="report-name">Threat Intelligence Brief</div>
+                <div class="report-meta">Daily · PDF</div>
+              </div>
+              <div class="report-actions"><button class="btn btn-outline" style="padding:7px 12px;font-size:12px;"><i class="fa-solid fa-eye"></i></button><button class="btn btn-primary" style="padding:7px 12px;font-size:12px;"><i class="fa-solid fa-download"></i></button></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Generate Custom Report</div>
+            <div class="card">
+              <div class="card-body">
+                <div class="form-group"><label class="form-label">Report Type</label><select class="form-input"><option>Security Summary</option><option>Vulnerability Report</option><option>Threat Analysis</option><option>Activity Log</option></select></div>
+                <div class="form-row2"><div class="form-group"><label class="form-label">From Date</label><input type="date" class="form-input" value="2024-06-01"></div><div class="form-group"><label class="form-label">To Date</label><input type="date" class="form-input" value="2024-06-23"></div></div>
+                <div class="form-group"><label class="form-label">Format</label><select class="form-input"><option>PDF</option><option>CSV</option><option>JSON</option></select></div>
+                <button class="btn btn-primary" style="width:100%;justify-content:center;"><i class="fa-solid fa-file-export"></i> Generate Report</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: ACTIVITY LOGS ═══ -->
+    <div class="page-view" id="page-logs">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="page-eyebrow"><i class="fa-solid fa-scroll"></i> Logs</div>
+            <h1 class="page-title">Activity Logs</h1>
+            <p class="page-sub">Complete audit trail of your account activity.</p>
+          </div>
+          <div class="page-actions"><button class="btn btn-outline"><i class="fa-solid fa-filter"></i> Filter</button><button class="btn btn-primary"><i class="fa-solid fa-download"></i> Export</button></div>
+        </div>
+        <div class="card mb24">
+          <div class="card-header"><div class="card-title"><i class="fa-solid fa-list"></i> Your Activity</div></div>
+          <div class="tbl-wrap">
+            <table class="data-table">
+              <thead><tr><th>Timestamp</th><th>Action</th><th>Resource</th><th>IP Address</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td style="font-family:var(--mono);font-size:11px;">Jun 23 09:32:14</td><td style="font-family:var(--mono);font-size:11px;color:var(--accent);">LOGIN</td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Dashboard</td><td style="font-family:var(--mono);font-size:11px;">192.168.1.10</td><td><span class="pill pill-active">Success</span></td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;">Jun 23 08:50:44</td><td style="font-family:var(--mono);font-size:11px;color:var(--accent2);">REPORT_VIEW</td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Security Summary</td><td style="font-family:var(--mono);font-size:11px;">192.168.1.10</td><td><span class="pill pill-active">Success</span></td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;">Jun 23 08:21:09</td><td style="font-family:var(--mono);font-size:11px;color:var(--warning);">ALERT_DISMISS</td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Alert #234</td><td style="font-family:var(--mono);font-size:11px;">192.168.1.10</td><td><span class="pill pill-active">Success</span></td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;">Jun 22 23:58:12</td><td style="font-family:var(--mono);font-size:11px;color:var(--danger);">LOGIN_FAIL</td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Dashboard</td><td style="font-family:var(--mono);font-size:11px;">192.168.1.45</td><td><span class="pill pill-open">Blocked</span></td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;">Jun 22 22:14:30</td><td style="font-family:var(--mono);font-size:11px;color:var(--success);">SCAN_COMPLETE</td><td style="font-family:var(--mono);font-size:11px;color:var(--muted);">Full system scan</td><td style="font-family:var(--mono);font-size:11px;">Local</td><td><span class="pill pill-active">Success</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGE: SETTINGS ═══ -->
+    <div class="page-view" id="page-settings">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <div class="page-eyebrow"><i class="fa-solid fa-gear"></i> Settings</div>
+            <h1 class="page-title">Account Settings</h1>
+            <p class="page-sub">Manage your account preferences and security settings.</p>
+          </div>
+          <div class="page-actions"><button class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button></div>
+        </div>
+        <div class="g2">
+          <div>
+            <div class="card mb24">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-user"></i> Profile</div></div>
+              <div class="card-body">
+                <div class="form-row2"><div class="form-group"><label class="form-label">First Name</label><input type="text" class="form-input" value="John"></div><div class="form-group"><label class="form-label">Last Name</label><input type="text" class="form-input" value="Doe"></div></div>
+                <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" value="john.doe@stackly.io"></div>
+                <div class="form-group"><label class="form-label">Timezone</label><select class="form-input"><option>UTC+0 (London)</option><option selected>UTC-5 (New York)</option><option>UTC-8 (Los Angeles)</option></select></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-key"></i> Security</div></div>
+              <div class="card-body">
+                <div class="form-group"><label class="form-label">Current Password</label><input type="password" class="form-input" placeholder="••••••••"></div>
+                <div class="form-group"><label class="form-label">New Password</label><input type="password" class="form-input" placeholder="••••••••"></div>
+                <div class="form-group"><label class="form-label">Confirm Password</label><input type="password" class="form-input" placeholder="••••••••"></div>
+                <button class="btn btn-danger" style="width:100%;justify-content:center;">Update Password</button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="card mb24">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-bell"></i> Notifications</div></div>
+              <div class="card-body">
+                <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Critical Alerts</div><div class="toggle-desc">Instant notifications</div></div><label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+                <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Weekly Summary</div><div class="toggle-desc">Email digest</div></div><label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+                <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Login Alerts</div><div class="toggle-desc">Notify on new logins</div></div><label class="toggle"><input type="checkbox"><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+                <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Compliance Alerts</div><div class="toggle-desc">Framework changes</div></div><label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title"><i class="fa-solid fa-shield-halved"></i> Security Preferences</div></div>
+              <div class="card-body">
+                <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Two-Factor Authentication</div><div class="toggle-desc">Extra security layer</div></div><label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+                <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Session Timeout</div><div class="toggle-desc">Auto-logout after 30 min</div></div><label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+                <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Activity Logging</div><div class="toggle-desc">Log all actions</div></div><label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGOUT MODAL -->
+  <div id="logoutModal"
+    style="display:none;position:fixed;inset:0;background:rgba(7,8,15,.85);backdrop-filter:blur(8px);z-index:999;align-items:center;justify-content:center;">
+    <div style="background:var(--surface2);border:1px solid rgba(255,61,107,.3);border-radius:14px;padding:36px 40px;max-width:360px;width:90%;text-align:center;">
+      <div style="width:56px;height:56px;border-radius:14px;background:rgba(255,61,107,.12);border:1px solid rgba(255,61,107,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:22px;color:var(--danger);"><i class="fa-solid fa-right-from-bracket"></i></div>
+      <h3 style="font-family:var(--display);font-size:20px;font-weight:800;margin-bottom:10px;">Sign Out?</h3>
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:28px;">Your session will be securely terminated.</p>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <button id="cancelLogout" class="btn btn-outline">Cancel</button>
+        <button id="confirmLogout" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ══ ROUTER ══════════════════════════════════════════════════ */
+    const pageTitles = {
+      dashboard: 'Dashboard',
+      alerts: 'Alerts',
+      threats: 'Threats',
+      incidents: 'Incidents',
+      vulns: 'Vulnerabilities',
+      assets: 'Assets',
+      reports: 'Reports',
+      logs: 'Activity Logs',
+      settings: 'Settings'
+    };
+    let currentPage = 'dashboard';
+
+    function navigateTo(page) {
+      if (!document.getElementById('page-' + page)) return;
+      document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+      document.getElementById('page-' + page).classList.add('active');
+      document.querySelectorAll('.sb-item').forEach(i => {
+        i.classList.toggle('active', i.dataset.page === page);
+      });
+      document.getElementById('breadcrumbCurrent').textContent = pageTitles[page] || page;
+      currentPage = page;
+      closeMobileSidebar();
+      document.querySelector('.main').scrollTo ? document.querySelector('.main').scrollTo(0, 0) : window.scrollTo(0, 0);
+    }
+
+    document.querySelectorAll('.sb-item').forEach(item => {
+      item.addEventListener('click', () => navigateTo(item.dataset.page));
+    });
+
+    /* ══ MOBILE SIDEBAR ══════════════════════════════════════════ */
+    const sidebar = document.getElementById('sidebar');
+    const hamburger = document.getElementById('hamburger');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    function openMobileSidebar() {
+      sidebar.classList.add('mobile-open');
+      overlay.classList.add('show');
+      hamburger.classList.add('open');
+    }
+
+    function closeMobileSidebar() {
+      sidebar.classList.remove('mobile-open');
+      overlay.classList.remove('show');
+      hamburger.classList.remove('open');
+    }
+
+    hamburger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (sidebar.classList.contains('mobile-open')) {
+        closeMobileSidebar();
+      } else {
+        openMobileSidebar();
+      }
+    });
+
+    overlay.addEventListener('click', closeMobileSidebar);
+
+    document.querySelectorAll('.sb-item').forEach(item => {
+      item.addEventListener('click', function() {
+        if (window.innerWidth <= 900) {
+          closeMobileSidebar();
+        }
+      });
+    });
+
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 900) {
+        closeMobileSidebar();
+      }
+    });
+
+    /* ══ DROPDOWNS ═══════════════════════════════════════════════ */
+    ['notifBtn,notifDd', 'profileBtn,profileDd'].forEach(pair => {
+      const [btnId, ddId] = pair.split(',');
+      document.getElementById(btnId).addEventListener('click', e => {
+        e.stopPropagation();
+        document.querySelectorAll('.notif-dd,.profile-dd').forEach(d => { if (d.id !== ddId) d.classList.remove('open'); });
+        document.getElementById(ddId).classList.toggle('open');
+      });
+    });
+    document.addEventListener('click', () => document.querySelectorAll('.notif-dd,.profile-dd').forEach(d => d.classList.remove('open')));
+
+    /* ══ LOGOUT ══════════════════════════════════════════════════ */
+    const modal = document.getElementById('logoutModal');
+    ['logoutBtn', 'profileLogout'].forEach(id => document.getElementById(id).addEventListener('click', () => modal.style.display = 'flex'));
+    document.getElementById('cancelLogout').addEventListener('click', () => modal.style.display = 'none');
+    document.getElementById('confirmLogout').addEventListener('click', function() {
+      this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing out…';
+      setTimeout(() => { modal.style.display = 'none';
+        this.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Sign Out'; }, 2000);
+    });
+
+    /* ══ LIVE CLOCK ══════════════════════════════════════════════ */
+    const liveTime = document.getElementById('liveTime');
+    function tick() { if (liveTime) liveTime.textContent = new Date().toLocaleTimeString('en-US', { hour12: false }) + ' UTC'; }
+    tick();
+    setInterval(tick, 1000);
+
+    /* ══ UPTIME BARS ═════════════════════════════════════════════ */
+    (function() {
+      const w = document.getElementById('uptimeBars');
+      if (!w) return;
+      const data = Array.from({ length: 90 }, (_, i) => [12, 37, 61].includes(i) ? 'warn-b' : [28].includes(i) ? 'down-b' :
+        'up');
+      w.innerHTML = data.map((c, i) =>
+        `<div class="uptime-bar ${c}" style="height:${(Math.random() * 30 + 10).toFixed(0)}px" title="${c === 'up' ? '100% up' : c === 'warn-b' ? 'Degraded' : 'Outage'}"></div>`
+        ).join('');
+    })();
+
+    /* ══ TOGGLE SWITCHES ═════════════════════════════════════════ */
+    document.querySelectorAll('.toggle input[type=checkbox]').forEach(cb => {
+      cb.addEventListener('change', function() {
+        const thumb = this.parentElement.querySelector('.toggle-thumb');
+        if (thumb) thumb.style.left = this.checked ? '21px' : '3px';
+      });
+      const thumb = cb.parentElement.querySelector('.toggle-thumb');
+      if (thumb) thumb.style.left = cb.checked ? '21px' : '3px';
+    });
+  </script>
+</body>
+
+</html>
