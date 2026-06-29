@@ -1779,6 +1779,11 @@
           .topbar-email{
             display: none;
           }
+          .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
         }
                 @media (max-width: 370px) {
                   .topbar-breadcrumb{
@@ -2573,7 +2578,7 @@ document.getElementById('confirmLogout').addEventListener('click', function() {
     (function() {
       const w = document.getElementById('uptimeBars');
       if (!w) return;
-      const data = Array.from({ length: 90 }, (_, i) => [12, 37, 61].includes(i) ? 'warn-b' : [28].includes(i) ? 'down-b' :
+      const data = Array.from({ length: 30 }, (_, i) => [12, 37, 61].includes(i) ? 'warn-b' : [28].includes(i) ? 'down-b' :
         'up');
       w.innerHTML = data.map((c, i) =>
         `<div class="uptime-bar ${c}" style="height:${(Math.random() * 30 + 10).toFixed(0)}px" title="${c === 'up' ? '100% up' : c === 'warn-b' ? 'Degraded' : 'Outage'}"></div>`
