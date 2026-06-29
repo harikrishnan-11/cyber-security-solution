@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Dashboard — Stackly Cyber Defense</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -125,15 +128,17 @@
       font-size: 14px;
     }
 
-    .sb-logo-text {
-      font-family: var(--display);
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 0.05em;
-      transition: opacity 0.2s;
+    .logo-img {
+      width: 150px;
+      height: 60px;
+      object-fit: cover;
+      margin: 0;
     }
-    .sb-logo-text span {
-      color: var(--accent);
+    .logo-img img{
+      width: 100%;
+      height:100%;
+            object-fit: cover;
+
     }
     .sidebar.collapsed .sb-logo-text {
       opacity: 0;
@@ -1770,7 +1775,16 @@
         display: none;
       }
     }
-
+        @media (max-width: 560px) {
+          .topbar-email{
+            display: none;
+          }
+        }
+                @media (max-width: 370px) {
+                  .topbar-breadcrumb{
+                    display: none;
+                  }
+                }
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -1790,7 +1804,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="sb-brand">
       <div class="sb-logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
-      <div class="sb-logo-text">Stack<span>ly</span></div>
+      <div class="sb-logo-text logo-img"><img src="./src/Untitled design-compressed.webp" alt=""></div>
     </div>
     <nav class="sb-nav">
       <div class="sb-section-label">Overview</div>
@@ -1810,7 +1824,8 @@
           class="sb-item-text">Assets</span></div>
 
       <div class="sb-section-label">Resources</div>
-      <div class="sb-item" data-page="reports" data-tip="Reports"><i class="fa-solid fa-file-chart-column"></i><span
+      <div class="sb-item" data-page="reports" data-tip="Reports"><i class="fa-solid fa-chart-column"></i>
+<span
           class="sb-item-text">Reports</span></div>
       <div class="sb-item" data-page="logs" data-tip="Activity Logs"><i class="fa-solid fa-scroll"></i><span
           class="sb-item-text">Activity Logs</span></div>
@@ -1842,10 +1857,7 @@
           <i class="fa-solid fa-chevron-right"></i>
           <span class="crumb-current" id="breadcrumbCurrent">Dashboard</span>
         </div>
-        <div class="topbar-search">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Search…" id="globalSearch" />
-        </div>
+        
       </div>
       <div class="topbar-right">
         <div class="topbar-email">
@@ -1908,6 +1920,7 @@
             </div>
           </div>
         </div>
+        
         <button class="btn-logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></button>
       </div>
     </header>
@@ -1934,7 +1947,8 @@
         <div class="stat-row">
           <div class="stat-card">
             <div class="stat-top">
-              <div class="stat-icon ic-blue"><i class="fa-solid fa-shield-check"></i></div>
+              <div class="stat-icon ic-blue"><i class="fa-solid fa-shield-halved"></i>
+</div>
               <div class="stat-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 100%</div>
             </div>
             <div class="stat-num">1.8K</div>
@@ -2166,7 +2180,8 @@
       <div class="page-content">
         <div class="page-header">
           <div>
-            <div class="page-eyebrow"><i class="fa-solid fa-shield-virus"></i> Threat Center</div>
+            <div class="page-eyebrow"><i class="fa-solid fa-shield-halved"></i>
+ Threat Center</div>
             <h1 class="page-title">Threat Monitor</h1>
             <p class="page-sub">Active threats detected in your environment.</p>
           </div>
@@ -2277,7 +2292,8 @@
         </div>
         <div class="stat-row">
           <div class="stat-card"><div class="stat-top"><div class="stat-icon ic-blue"><i class="fa-solid fa-server"></i></div></div><div class="stat-num">3</div><div class="stat-label">Total Assets</div><div class="stat-sub">All protected</div></div>
-          <div class="stat-card c-green"><div class="stat-top"><div class="stat-icon ic-green"><i class="fa-solid fa-shield-check"></i></div></div><div class="stat-num">3</div><div class="stat-label">Protected</div><div class="stat-sub">EDR agent installed</div></div>
+          <div class="stat-card c-green"><div class="stat-top"><div class="stat-icon ic-green"><i class="fa-solid fa-user-lock"></i>
+          </div></div><div class="stat-num">3</div><div class="stat-label">Protected</div><div class="stat-sub">EDR agent installed</div></div>
           <div class="stat-card c-warn"><div class="stat-top"><div class="stat-icon ic-warn"><i class="fa-solid fa-clock"></i></div></div><div class="stat-num">0</div><div class="stat-label">At Risk</div><div class="stat-sub">No action needed</div></div>
           <div class="stat-card c-purple"><div class="stat-top"><div class="stat-icon ic-purple"><i class="fa-solid fa-cloud"></i></div></div><div class="stat-num">1</div><div class="stat-label">Cloud Resources</div><div class="stat-sub">AWS</div></div>
         </div>
@@ -2444,7 +2460,9 @@
       <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:28px;">Your session will be securely terminated.</p>
       <div style="display:flex;gap:12px;justify-content:center;">
         <button id="cancelLogout" class="btn btn-outline">Cancel</button>
-        <button id="confirmLogout" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+        <a href="./login.html">
+          <button id="confirmLogout" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+        </a>
       </div>
     </div>
   </div>
@@ -2536,13 +2554,17 @@
 
     /* ══ LOGOUT ══════════════════════════════════════════════════ */
     const modal = document.getElementById('logoutModal');
-    ['logoutBtn', 'profileLogout'].forEach(id => document.getElementById(id).addEventListener('click', () => modal.style.display = 'flex'));
-    document.getElementById('cancelLogout').addEventListener('click', () => modal.style.display = 'none');
-    document.getElementById('confirmLogout').addEventListener('click', function() {
-      this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing out…';
-      setTimeout(() => { modal.style.display = 'none';
-        this.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Sign Out'; }, 2000);
-    });
+['logoutBtn', 'profileLogout'].forEach(id => 
+    document.getElementById(id).addEventListener('click', () => modal.style.display = 'flex'));
+
+document.getElementById('cancelLogout').addEventListener('click', () => modal.style.display = 'none');
+
+document.getElementById('confirmLogout').addEventListener('click', function() {
+    this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing out…';
+    setTimeout(() => {
+        window.location.href = 'login.html'; // Redirect to login page
+    }, 2000);
+});
 
     /* ══ LIVE CLOCK ══════════════════════════════════════════════ */
     const liveTime = document.getElementById('liveTime');
@@ -2570,6 +2592,40 @@
       const thumb = cb.parentElement.querySelector('.toggle-thumb');
       if (thumb) thumb.style.left = cb.checked ? '21px' : '3px';
     });
+
+document.addEventListener("click", function (e) {
+    const btn = e.target.closest("button, a");
+
+    if (!btn) return;
+
+    // Allow topbar buttons
+    if (btn.closest(".topbar")) return;
+
+    // Allow anchor links (normal anchor tags)
+    if (btn.tagName.toLowerCase() === 'a' && btn.hasAttribute('href')) return;
+
+    // Allow the Cancel Logout button specifically
+    if (btn.id === "cancelLogout") return;
+
+    // Confirm Logout button action
+    if (btn.id === "confirmLogout") {
+        e.preventDefault(); // Prevent default button behavior
+        this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing out…';
+        setTimeout(() => {
+            window.location.href = 'login.html'; // Redirect to login page
+        }, 2000);
+        return;
+    }
+
+    // Allow buttons with existing navigation (e.g., data-redirect or onclick)
+    if (typeof btn.onclick === "function" || btn.hasAttribute("data-redirect")) return;
+
+    // Redirect all other buttons to 404
+    e.preventDefault();
+    e.stopPropagation();
+
+    window.location.href = "404.html";
+}, true);
   </script>
 </body>
 

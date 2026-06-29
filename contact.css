@@ -19,20 +19,20 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-
 html,
 body {
-  width: 100%;
-  overflow-x: hidden;
+    width: 100%;
+    overflow-x: hidden !important;
 }
 
 * {
-  max-width: 100%;
+    max-width: 100%;
 }
+
 
 /* Images */
 img {
@@ -41,12 +41,13 @@ img {
   display: block;
 }
 
-/* Container */
+/* ─── UTILITY ─────────────────────────────────────────────── */
 .container {
-  width: 100%;
-  padding-left: 16px;
-  padding-right: 16px;
+    width: min(1200px, 100%);
+    margin-inline: auto;
+    padding-inline: 20px;
 }
+
 
 body {
   background: var(--bg);

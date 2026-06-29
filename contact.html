@@ -10,38 +10,40 @@
 <link rel="stylesheet" href="footer.css">
 </head>
 <body>
+<canvas id="matrix-canvas"></canvas>
 
-
-<!-- ═══ NAV ═══ -->
-<nav id="navbar">
-  <div class="container">
-    <div class="nav-inner">
-      <a href="./index.html" class="logo">
-         <img src="./src/Untitled design-compressed.webp" alt="">
+  <!-- ═══ NAV ═══ -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="./index.html" class="logo">
+          <img src="./src/Untitled design-compressed.webp" alt="">
         </a>
-      <ul class="nav-links">
-        <a href="./index.html">Home</a>
-        <a href="./about.html">About</a>
-        <a href="./service.html">Services</a>
-        <a href="./blog.html">Blog</a>
-       <a href="./contact.html">Contact</a>
-       
-      </ul>
-      <a href="./login.html" class="btn btn-primary nav-cta"><i class="fa-solid fa-lock"></i>Login</a>
-      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</nav>
+        <ul class="nav-links">
+          <a href="./index.html">Home</a>
+          <a href="./about.html">About</a>
+          <a href="./service.html">Services</a>
+          <a href="./blog.html">Blog</a>
+          <a href="./contact.html " class="active">Contact</a>
 
-<!-- Mobile Menu -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="./index.html">Home</a>
-       <a href="./about.html">About</a>
-      <a href="./service.html">Services</a>
-        <a href="./blog.html">Blog</a>
-        <a href="./contact.html">Contact</a>
-  <a href="./login.html" class="btn btn-primary"><i class="fa-solid fa-lock"></i>Login</a>
-</div>
+        </ul>
+        <a href="./login.html" class="btn btn-primary nav-cta"><i class="fa-solid fa-lock"></i>Login</a>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="./index.html">Home</a>
+    <a href="./about.html">About</a>
+    <a href="./service.html">Services</a>
+    <a href="./blog.html">Blog</a>
+    <a href="./contact.html" class="active">Contact</a>
+    <a href="./login.html" class="btn btn-primary"><i class="fa-solid fa-lock"></i>Login</a>
+  </div>
+
+
 
 <!-- 1: HERO -->
 <section class="page-hero">
@@ -68,17 +70,17 @@
       <div class="info-card reveal d2">
         <div class="ic-icon"><i class="fa-solid fa-envelope"></i></div>
         <div class="ic-title">Email Us</div>
-        <div class="ic-val"><a href="mailto:hello@Stackly.io">hello@Stackly.io</a><br><span style="font-size:12px;margin-top:4px;display:block;">Response within 2 hours</span></div>
+        <div class="ic-val"><a href=""">Stackly@gmai.com</a><br><span style="font-size:12px;margin-top:4px;display:block;">Response within 2 hours</span></div>
       </div>
       <div class="info-card reveal d3">
-        <div class="ic-icon"><i class="fa-solid fa-siren-on"></i></div>
+        <div class="ic-icon"><i class="fa-solid fa-bug"></i></div>
         <div class="ic-title">Emergency IR</div>
         <div class="ic-val"><a href="tel:+18882472472">+1 888 247 2472</a><br><span style="font-size:12px;margin-top:4px;display:block;color:var(--danger);">24/7 Incident Hotline</span></div>
       </div>
       <div class="info-card reveal d4">
         <div class="ic-icon"><i class="fa-solid fa-location-dot"></i></div>
         <div class="ic-title">HQ Location</div>
-        <div class="ic-val">350 Fifth Avenue<br>New York, NY 10118</div>
+        <div class="ic-val">Salem. Tamil Nadu</div>
       </div>
     </div>
   </div>
@@ -140,7 +142,15 @@
       <!-- SIDEBAR -->
       <div class="contact-sidebar reveal-right">
         <div class="sidebar-map">
-          <img src="./src/cyber contact imag/image3-compressed.webp" alt="New York City">
+         <iframe
+    src="https://www.google.com/maps?q=Salem,Tamil%20Nadu&output=embed"
+    width="100%"
+    height="450"
+    style="border:0; border-radius:12px;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+</iframe>
           <div class="map-pin"><i class="fa-solid fa-location-dot"></i></div>
         </div>
         <div class="soc-live">
@@ -153,10 +163,10 @@
         <div class="office-card">
           <div class="oc-header">
             <div class="oc-flag"><i class="fa-solid fa-flag-usa"></i></div>
-            <div><div class="oc-city">New York — HQ</div><div class="oc-tag">// Primary Office</div></div>
+            <div><div class="oc-city">Salem</div><div class="oc-tag">// Primary Office</div></div>
           </div>
           <div class="oc-details">
-            <div class="oc-row"><i class="fa-solid fa-location-dot"></i><span>350 Fifth Avenue, Suite 4820<br>New York, NY 10118, USA</span></div>
+            <div class="oc-row"><i class="fa-solid fa-location-dot"></i>Salem, Tamil Nadu</div>
             <div class="oc-row"><i class="fa-solid fa-phone"></i><span>+1 800 Stackly</span></div>
             <div class="oc-row"><i class="fa-regular fa-clock"></i><span>Mon – Fri: 8:00 AM – 8:00 PM EST</span></div>
             <div class="oc-row"><i class="fa-solid fa-headset"></i><span>24/7 Emergency Incident Response</span></div>
@@ -165,10 +175,10 @@
         <div class="office-card">
           <div class="oc-header">
             <div class="oc-flag"><i class="fa-solid fa-earth-europe"></i></div>
-            <div><div class="oc-city">London — EMEA</div><div class="oc-tag">// European Operations</div></div>
+            <div><div class="oc-city">Coimbatore</div><div class="oc-tag">// Branch Operations</div></div>
           </div>
           <div class="oc-details">
-            <div class="oc-row"><i class="fa-solid fa-location-dot"></i><span>1 Canada Square, Canary Wharf<br>London, E14 5AB, UK</span></div>
+            <div class="oc-row"><i class="fa-solid fa-location-dot"></i>Coimbatore, Tamil Nadu</div>
             <div class="oc-row"><i class="fa-solid fa-phone"></i><span>+44 20 7123 4567</span></div>
             <div class="oc-row"><i class="fa-regular fa-clock"></i><span>Mon – Fri: 8:00 AM – 6:00 PM GMT</span></div>
           </div>
@@ -219,20 +229,44 @@
   <div class="container">
     <div style="text-align:center;margin-bottom:52px;" class="reveal">
       <span class="tag" style="justify-content:center;"><i class="fa-solid fa-earth-americas"></i> Global Presence</span>
-      <h2 style="font-family:var(--display);font-size:clamp(28px,3.5vw,44px);font-weight:800;letter-spacing:-.02em;margin-top:14px;">Our <span style="color:var(--accent);">Offices Worldwide</span></h2>
+      <h2 style="font-family:var(--display);font-size:clamp(28px,3.5vw,44px);font-weight:800;letter-spacing:-.02em;margin-top:14px;">Our <span style="color:var(--accent);">Offices </span></h2>
     </div>
     <div class="offices-grid">
       <div class="office-tile reveal d1">
-        <div class="ot-img"><img src="./src/cyber contact imag/image4-compressed.webp" alt="NYC"><div class="ot-overlay"><i class="fa-solid fa-circle" style="color:var(--green);margin-right:4px;"></i>New York, USA</div></div>
-        <div class="ot-body"><div class="ot-city">New York</div><div class="ot-addr">350 Fifth Avenue, Suite 4820, New York, NY 10118</div><div class="ot-status"><div class="ot-dot"></div> SOC Active — Primary HQ</div></div>
+        <div class="ot-img"><iframe
+    src="https://www.google.com/maps?q=Salem,Tamil%20Nadu&output=embed"
+    width="100%"
+    height="450"
+    style="border:0; border-radius:12px;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+</iframe></div>
+        <div class="ot-body"><div class="ot-city">Salem</div><div class="ot-status"><div class="ot-dot"></div> SOC Active — Primary HQ</div></div>
       </div>
       <div class="office-tile reveal d2">
-        <div class="ot-img"><img src="./src/cyber contact imag/image5-compressed.webp" alt="London"><div class="ot-overlay"><i class="fa-solid fa-circle" style="color:var(--green);margin-right:4px;"></i>London, UK</div></div>
-        <div class="ot-body"><div class="ot-city">London</div><div class="ot-addr">1 Canada Square, Canary Wharf, London E14 5AB, UK</div><div class="ot-status"><div class="ot-dot"></div> SOC Active — EMEA Hub</div></div>
+        <div class="ot-img"><iframe
+    src="https://www.google.com/maps?q=79+Iswarya+Complex,+Netaji+Road,+Pappanaickenpalayam,+Coimbatore,+Tamil+Nadu+641037&output=embed"
+    width="100%"
+    height="450"
+    style="border:0; border-radius:12px;"
+    allowfullscreen
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+</iframe></div>
+        <div class="ot-body"><div class="ot-city">Coimbatore</div><div class="ot-status"><div class="ot-dot"></div> SOC Active — EMEA Hub</div></div>
       </div>
       <div class="office-tile reveal d3">
-        <div class="ot-img"><img src="./src/cyber contact imag/image6-compressed.webp" alt="Singapore"><div class="ot-overlay"><i class="fa-solid fa-circle" style="color:var(--green);margin-right:4px;"></i>Singapore</div></div>
-        <div class="ot-body"><div class="ot-city">Singapore</div><div class="ot-addr">1 Raffles Place, Tower One, Singapore 048616</div><div class="ot-status"><div class="ot-dot"></div> SOC Active — APAC Hub</div></div>
+        <div class="ot-img"><iframe
+    src="https://www.google.com/maps?q=79+Iswarya+Complex,+Netaji+Road,+Pappanaickenpalayam,+Coimbatore,+Tamil+Nadu+641037&output=embed"
+    width="100%"
+    height="450"
+    style="border:0; border-radius:12px;"
+    allowfullscreen
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+</iframe></div>
+        <div class="ot-body"><div class="ot-city">Benalore</div><div class="ot-status"><div class="ot-dot"></div> SOC Active — APAC Hub</div></div>
       </div>
     </div>
   </div>
@@ -311,10 +345,7 @@
 
 
 <script>
-window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>60));
-const hb=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
-hb.addEventListener('click',()=>{hb.classList.toggle('open');const o=hb.classList.contains('open');mm.classList.toggle('open',o);mm.style.display=o?'flex':'none';});
-document.querySelectorAll('.menu-link,.mobile-menu .btn').forEach(l=>l.addEventListener('click',()=>{hb.classList.remove('open');mm.classList.remove('open');mm.style.display='none';}));
+
 const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.1});
 document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>obs.observe(el));
 // Chips
@@ -337,5 +368,6 @@ document.getElementById('contactForm').addEventListener('submit',function(e){
 });
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}}));
 </script>
+<script src="./nav.js"></script>
 </body>
 </html>
