@@ -95,49 +95,71 @@
         <span class="tag"><i class="fa-solid fa-paper-plane"></i> Send a Message</span>
         <h2 class="form-title">Talk to a <span>Security Expert</span></h2>
         <p class="form-sub">Fill in the form and a certified security engineer will reach out within 2 business hours — no sales reps, no runarounds.</p>
-        <form id="contactForm" novalidate>
-          <div class="form-row">
-            <div class="form-group">
-              <label><i class="fa-solid fa-user"></i>First Name</label>
-              <input class="form-control" type="text" placeholder="John" required>
-            </div>
-            <div class="form-group">
-              <label><i class="fa-solid fa-user"></i>Last Name</label>
-              <input class="form-control" type="text" placeholder="Smith" required>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label><i class="fa-solid fa-envelope"></i>Work Email</label>
-              <input class="form-control" type="email" placeholder="john@company.com" required>
-            </div>
-            <div class="form-group">
-              <label><i class="fa-solid fa-phone"></i>Phone Number</label>
-              <input class="form-control" type="tel" placeholder="+1 (555) 000-0000">
-            </div>
-          </div>
-          <div class="form-group">
-            <label><i class="fa-solid fa-building"></i>Company</label>
-            <input class="form-control" type="text" placeholder="Acme Corporation">
-          </div>
-          <div class="form-group">
-            <label><i class="fa-solid fa-grid-2"></i>I'm Interested In</label>
-            <div class="service-chips">
-              <div class="chip active"><i class="fa-solid fa-bug-slash"></i> Pen Testing</div>
-              <div class="chip"><i class="fa-solid fa-brain"></i> Threat Intel</div>
-              <div class="chip"><i class="fa-solid fa-tower-broadcast"></i> SOC Service</div>
-              <div class="chip"><i class="fa-solid fa-cloud"></i> Cloud Security</div>
-              <div class="chip"><i class="fa-solid fa-clipboard-check"></i> Compliance</div>
-              <div class="chip"><i class="fa-solid fa-siren-on"></i> Incident Response</div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label><i class="fa-solid fa-comment"></i>Tell Us About Your Challenge</label>
-            <textarea class="form-control" placeholder="Describe your current security concerns, environment size, compliance requirements, or anything that would help us understand your needs..."></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary form-submit"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
-          <p class="form-note"><i class="fa-solid fa-lock"></i> Your data is encrypted and never shared with third parties.</p>
-        </form>
+       <form id="contactForm" novalidate>
+  <div class="form-row">
+    <div class="form-group">
+      <label><i class="fa-solid fa-user"></i>First Name</label>
+      <input
+        name="firstName"
+        class="form-control"
+        type="text"
+        placeholder="John"
+        onkeypress="return /[a-zA-Z ]/.test(event.key)"
+        onpaste="return false"
+        required>
+    </div>
+    <div class="form-group">
+      <label><i class="fa-solid fa-user"></i>Last Name</label>
+      <input
+        name="lastName"
+        class="form-control"
+        type="text"
+        placeholder="Doe"
+        onkeypress="return /[a-zA-Z ]/.test(event.key)"
+        onpaste="return false"
+        required>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label><i class="fa-solid fa-envelope"></i>Work Email</label>
+      <input name="email" class="form-control" type="email" placeholder="john@company.com" required>
+    </div>
+    <div class="form-group">
+      <label><i class="fa-solid fa-phone"></i>Phone Number</label>
+      <input
+        name="phone"
+        class="form-control"
+        type="tel"
+        placeholder="9876543210"
+        maxlength="10"
+        inputmode="numeric"
+        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+        required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label><i class="fa-solid fa-building"></i>Company</label>
+    <input name="company" class="form-control" type="text" placeholder="Acme Corporation">
+  </div>
+  <div class="form-group">
+    <label><i class="fa-solid fa-grid-2"></i>I'm Interested In</label>
+    <div class="service-chips">
+      <div class="chip active"><i class="fa-solid fa-bug-slash"></i> Pen Testing</div>
+      <div class="chip"><i class="fa-solid fa-brain"></i> Threat Intel</div>
+      <div class="chip"><i class="fa-solid fa-tower-broadcast"></i> SOC Service</div>
+      <div class="chip"><i class="fa-solid fa-cloud"></i> Cloud Security</div>
+      <div class="chip"><i class="fa-solid fa-clipboard-check"></i> Compliance</div>
+      <div class="chip"><i class="fa-solid fa-siren-on"></i> Incident Response</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label><i class="fa-solid fa-comment"></i>Tell Us About Your Challenge</label>
+    <textarea name="message" class="form-control" minlength="10" maxlength="300" placeholder="Describe your current security concerns..."></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary form-submit"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+  <p class="form-note"><i class="fa-solid fa-lock"></i> Your data is encrypted and never shared with third parties.</p>
+</form>
       </div>
       <!-- SIDEBAR -->
       <div class="contact-sidebar reveal-right">
@@ -358,15 +380,82 @@ document.querySelectorAll('.faq-item').forEach(item=>{
     if(!wasOpen)item.classList.add('open');
   });
 });
-// Form submit
-document.getElementById('contactForm').addEventListener('submit',function(e){
-  e.preventDefault();
-  const btn=this.querySelector('.form-submit');
-  btn.innerHTML='<i class="fa-solid fa-circle-check"></i> Message Sent!';
-  btn.style.background='var(--green)';btn.style.color='#000';
-  setTimeout(()=>{btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> Send Message';btn.style.background='';btn.style.color='';},3000);
+// Form submitconst form = document.getElementById("contactForm");
+// Ensure we actually select the form element
+const form = document.getElementById("contactForm");
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const btn = form.querySelector(".form-submit");
+    const inputs = form.querySelectorAll(".form-control");
+
+    // Reset previous error styles safely
+    inputs.forEach(input => input.style.borderColor = "");
+
+    let valid = true;
+
+    // Grab elements by their name attribute safely
+    const firstName = form.querySelector('[name="firstName"]');
+    const lastName = form.querySelector('[name="lastName"]');
+    const email = form.querySelector('[name="email"]');
+    const phone = form.querySelector('[name="phone"]');
+    const company = form.querySelector('[name="company"]');
+    const message = form.querySelector('[name="message"]');
+
+    // First Name Validation
+    if (!/^[A-Za-z ]+$/.test(firstName.value.trim())) {
+        firstName.style.borderColor = "#ff4d4f";
+        valid = false;
+    }
+
+    // Last Name Validation
+    if (!/^[A-Za-z ]+$/.test(lastName.value.trim())) {
+        lastName.style.borderColor = "#ff4d4f";
+        valid = false;
+    }
+
+    // Email Validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.value.trim())) {
+        email.style.borderColor = "#ff4d4f";
+        valid = false;
+    }
+
+    // Phone Validation
+    if (!/^\d{10}$/.test(phone.value.trim())) {
+        phone.style.borderColor = "#ff4d4f";
+        valid = false;
+    }
+
+    // Company Validation
+    if (company.value.trim() === "") {
+        company.style.borderColor = "#ff4d4f";
+        valid = false;
+    }
+
+    // Message Validation (min 20 characters)
+    if (message.value.trim().length < 20) {
+        message.style.borderColor = "#ff4d4f";
+        valid = false;
+    }
+
+    // Stop execution if any validation checks failed
+    if (!valid) return;
+
+    // Success State Actions
+    btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Message Sent!';
+    // Optional fallback color strategy if var(--green) fails to parse
+    btn.style.background = "green"; 
+    btn.style.color = "#fff";
+
+    setTimeout(() => {
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
+        btn.style.background = "";
+        btn.style.color = "";
+        form.reset();
+    }, 3000);
 });
-document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}}));
 </script>
 <script src="./nav.js"></script>
 </body>
