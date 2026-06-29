@@ -1861,8 +1861,7 @@
       </div>
       <div class="topbar-right">
         <div class="topbar-email">
-          <div class="topbar-email-av">JD</div>
-          <span>john.doe@stackly.io</span>
+          <span id="userEmail"></span>
         </div>
         <div class="dd-wrap">
           <div class="icon-btn" id="notifBtn"><i class="fa-solid fa-bell"></i><span class="notif-dot"></span></div>
@@ -1906,10 +1905,8 @@
           <div class="icon-btn" id="profileBtn"><i class="fa-solid fa-circle-user"></i></div>
           <div class="profile-dd" id="profileDd">
             <div class="profile-hd">
-              <div class="profile-av">JD</div>
               <div>
-                <div class="profile-name">John Doe</div>
-                <div class="profile-email">john.doe@stackly.io</div>
+                <div class="profile-email"><span id="userEmail"></span></div>
                 <div class="profile-role"><i class="fa-solid fa-shield-halved"></i> Security Analyst</div>
               </div>
             </div>
@@ -2626,6 +2623,9 @@ document.addEventListener("click", function (e) {
 
     window.location.href = "404.html";
 }, true);
+
+document.getElementById("userEmail").textContent =
+    localStorage.getItem("userEmail") || "Guest";
   </script>
 </body>
 

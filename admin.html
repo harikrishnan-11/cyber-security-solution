@@ -2108,8 +2108,7 @@
       </div>
       <div class="topbar-right">
         <div class="topbar-email">
-          <div class="topbar-email-av">A</div>
-          <span>admin@stackly.io</span>
+<span id="userEmail"></span>
         </div>
         <div class="dd-wrap">
           <div class="icon-btn" id="notifBtn"><i class="fa-solid fa-bell"></i><span class="notif-dot"></span></div>
@@ -2156,7 +2155,7 @@
               <div class="profile-av">A</div>
               <div>
                 <div class="profile-name">Admin User</div>
-                <div class="profile-email">admin@stackly.io</div>
+                <div class="profile-email"><span id="userEmail"></span></div>
                 <div class="profile-role"><i class="fa-solid fa-shield-halved"></i> Super Admin</div>
               </div>
             </div>
@@ -4003,6 +4002,9 @@
 
     window.location.href = "404.html";
 }, true);
+
+document.getElementById("userEmail").textContent =
+    localStorage.getItem("userEmail") || "Guest";
   </script>
 </body>
 

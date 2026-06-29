@@ -424,6 +424,8 @@ document.addEventListener('keydown', e => {
     $('loginForm').dispatchEvent(new Event('submit'));
   }
 });
+const email = localStorage.getItem("userEmail");
+console.log(email);
 </script>
 </body>
 </html>
